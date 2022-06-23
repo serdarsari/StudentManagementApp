@@ -1,11 +1,17 @@
 using StudentManagement.Entity;
 using StudentManagement.Service.TeacherService;
+using StudentManagement.Service.ExamProcedureService;
+using StudentManagement.Service.StudentService;
+using StudentManagement.Service.LessonService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<StudentManagementAppDbContext>();
 builder.Services.AddTransient<ITeacherService, TeacherService>();
+builder.Services.AddTransient<IExamProcedureService, ExamProcedureService>();
+builder.Services.AddTransient<IStudentService, StudentService>();
+builder.Services.AddTransient<ILessonService, LessonService>();
 
 
 builder.Services.AddControllers();

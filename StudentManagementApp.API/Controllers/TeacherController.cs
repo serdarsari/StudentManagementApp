@@ -24,7 +24,6 @@ namespace StudentManagementApp.API.Controllers
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
 
-
             return Ok(result.Message);
         }
     }

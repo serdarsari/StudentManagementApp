@@ -1,12 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.TeacherDTO;
 using StudentManagement.Entity;
+using StudentManagement.Service.Common;
 using StudentManagement.Service.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentManagement.Service.TeacherService
 {
@@ -56,12 +52,12 @@ namespace StudentManagement.Service.TeacherService
             try
             {
                 var lastId = 0;
-                if (_dbContext.Teachers.FirstOrDefault() != null)
-                {
+                var checkIfDatabaseIsEmpty = _dbContext.Students.FirstOrDefault();
+                if (checkIfDatabaseIsEmpty != null)
                     lastId = await _dbContext.Teachers.MaxAsync(t => t.Id);
-                }
 
-                string newRegistrationNumber = $"{RegistrationNumberTypes.TCHR.ToString() + (lastId + 1)}";
+                var newId = lastId + 1;
+                string newRegistrationNumber = RegistrationNumberGenerator.Create(RegistrationNumberTypes.TCHR, newId);
 
                 var teacher = new Teacher
                 {
