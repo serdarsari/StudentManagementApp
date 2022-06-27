@@ -12,6 +12,8 @@ Swagger
 
 EF Core
 
+AutoMapper
+
 ----- Geliştirmeye devam ediyorum her gün eklemeler oldukça bu alan güncellenecek.
 
 ### Veritabanı kurulumu (Sql Server)
