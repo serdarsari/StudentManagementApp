@@ -20,12 +20,12 @@ namespace StudentManagement.Service.ExamProcedureService
             {
                 var student = _dbContext.Students.SingleOrDefault(s => s.Id == request.StudentId);
                 if (student == null)
-                    return new EnterStudentExamScoreResponse { IsSuccess = false, Message = "ERROR: Geçersiz id girdiniz." };
+                    return new EnterStudentExamScoreResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'StudentId' bilgisi girdiniz." };
 
                 var studentGrade = student.Grade;
                 var currentSemester = CommonFunctions.GetCurrentSemester();
                 if (currentSemester == 0)
-                    return new EnterStudentExamScoreResponse { IsSuccess = false, Message = "Not girmek için aktif semester bulunmamaktadır.Eylül-Ocak veya Ocak-Haziran ayları arasında not girişi yapılabilir." };
+                    return new EnterStudentExamScoreResponse { IsSuccess = false, Message = "Not girmek için aktif semester bulunmamaktadır. Eylül-Ocak veya Ocak-Haziran ayları arasında not girişi yapılabilir." };
 
                 var examResult = new ExamResult
                 {

@@ -15,6 +15,59 @@ namespace StudentManagement.Service.StudentService
             _dbContext = dbContext;
         }
 
+        public async Task<GetStudentsResponse> GetStudentsAsync(GetStudentsRequest request)
+        {
+            var currentStartRow = (request.PageNumber - 1) * request.PageSize;
+            var response = new GetStudentsResponse
+            {
+                NextPage = $"api/Students?PageNumber={request.PageNumber + 1}&PageSize={request.PageSize}",
+                TotalStudents = await _dbContext.Students.CountAsync(),
+            };
+
+            var students = await _dbContext.Students.ToListAsync();
+
+            var responseStudents = students.Skip(currentStartRow).Take(request.PageSize)
+                .Select(s => new StudentResponse
+                {
+                    Id = s.Id,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    Grade = s.Grade,
+                    ClassBranch = s.ClassBranch
+                }).ToList();
+
+            response.Students = responseStudents;
+            return response;
+        }
+
+        public async Task<GetStudentDetailResponse> GetStudentDetailAsync(int studentId)
+        {
+            try
+            {
+                var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == studentId);
+                if (student == null)
+                    return new GetStudentDetailResponse { ErrorMessage = "ERROR: Geçersiz 'studentId' bilgisi girdiniz." };
+
+                var response = new GetStudentDetailResponse{
+                    StudentId = student.StudentId,
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+                    EmergencyCall = student.EmergencyCall,
+                    Birthday = student.Birthday,
+                    Gender = student.Gender,
+                    Address = student.Address,
+                    Grade = student.Grade,
+                    ClassBranch = student.ClassBranch,
+                    GPA = student.GPA
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new GetStudentDetailResponse { ErrorMessage = "Bilinmeyen bir hata oluştu." };
+            }
+        }
+
         public async Task<CreateStudentResponse> CreateStudentAsync(CreateStudentRequest request)
         {
             try
@@ -44,11 +97,65 @@ namespace StudentManagement.Service.StudentService
                 await _dbContext.AddAsync(student);
                 await _dbContext.SaveChangesAsync();
 
-                return new CreateStudentResponse { IsSuccess = true , Message = "Öğrenci oluşturma işlemi başarılı!"};
+                return new CreateStudentResponse { IsSuccess = true , Message = "Oluşturma işlemi başarılı!"};
+            }
+            catch (DbUpdateException dbex)
+            {
+                return new CreateStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
             }
             catch (Exception ex)
             {
-                return new CreateStudentResponse { IsSuccess=false, Message = ex.Message };
+                return new CreateStudentResponse { IsSuccess=false, Message = "Bilinmeyen bir hata oluştu." };
+            }
+        }
+
+        public async Task<DeleteStudentResponse> DeleteStudentAsync(int studentId)
+        {
+            try
+            {
+                var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == studentId);
+                if (student == null)
+                    return new DeleteStudentResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'studentId' bilgisi girdiniz." };
+
+                _dbContext.Students.Remove(student);
+                await _dbContext.SaveChangesAsync();
+
+                return new DeleteStudentResponse { IsSuccess = true, Message = "Silme işlemi başarılı!" };
+            }
+            catch(DbUpdateException dbex)
+            {
+                return new DeleteStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+            }
+            catch (Exception ex)
+            {
+                return new DeleteStudentResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
+            }
+        }
+
+        public async Task<UpdateStudentResponse> UpdateStudentAsync(int studentId, UpdateStudentRequest request)
+        {
+            try
+            {
+                var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == studentId);
+                if (student == null)
+                    return new UpdateStudentResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'studentId' bilgisi girdiniz." };
+
+                student.EmergencyCall = request.EmergencyCall != student.EmergencyCall ? request.EmergencyCall : student.EmergencyCall;
+                student.Address = request.Address != student.Address ? request.Address : student.Address;
+                student.ClassBranch = request.ClassBranch != student.ClassBranch ? request.ClassBranch : student.ClassBranch;
+                student.GPA = request.GPA != student.GPA ? request.GPA : student.GPA;
+
+                await _dbContext.SaveChangesAsync();
+
+                return new UpdateStudentResponse { IsSuccess = true, Message = "Güncelleme işlemi başarılı!" };
+            }
+            catch(DbUpdateException dbex)
+            {
+                return new UpdateStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+            }
+            catch (Exception)
+            {
+                return new UpdateStudentResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
             }
         }
     }

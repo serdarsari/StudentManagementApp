@@ -3,6 +3,7 @@ using StudentManagement.Service.TeacherService;
 using StudentManagement.Service.ExamProcedureService;
 using StudentManagement.Service.StudentService;
 using StudentManagement.Service.LessonService;
+using StudentManagement.Service.ManagerService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddTransient<ITeacherService, TeacherService>();
 builder.Services.AddTransient<IExamProcedureService, ExamProcedureService>();
 builder.Services.AddTransient<IStudentService, StudentService>();
 builder.Services.AddTransient<ILessonService, LessonService>();
+builder.Services.AddTransient<IManagerService, ManagerService>();
 
 
 builder.Services.AddControllers();

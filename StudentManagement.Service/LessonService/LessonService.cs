@@ -13,7 +13,6 @@ namespace StudentManagement.Service.LessonService
             _dbContext = dbContext;
         }
 
-
         public async Task<CreateLessonResponse> CreateLessonAsync(CreateLessonRequest request)
         {
             try
@@ -28,7 +27,7 @@ namespace StudentManagement.Service.LessonService
                 await _dbContext.AddAsync(lesson);
                 await _dbContext.SaveChangesAsync();
 
-                return new CreateLessonResponse { IsSuccess = true, Message = "Ders oluşturma işlemi başarılı!" };
+                return new CreateLessonResponse { IsSuccess = true, Message = "Oluşturma işlemi başarılı!" };
             }
             catch (DbUpdateException dbex)
             {
@@ -38,7 +37,6 @@ namespace StudentManagement.Service.LessonService
             {
                 return new CreateLessonResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
             }
-
         }
     }
 }
