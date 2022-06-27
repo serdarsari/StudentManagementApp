@@ -8,6 +8,7 @@ namespace StudentManagement.Entity
         [Key]
         public int Id { get; set; }
         public string RegistrationNumber { get; set; }
+        public int LessonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
@@ -17,5 +18,6 @@ namespace StudentManagement.Entity
         public string Gender { get; set; }
         public string Profession { get; set; }
         public string? Description { get; set; }
+        
     }
 }

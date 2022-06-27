@@ -3,6 +3,7 @@ namespace StudentManagement.DTO.TeacherDTO
 {
     public class CreateTeacherRequest
     {
+        public int LessonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
