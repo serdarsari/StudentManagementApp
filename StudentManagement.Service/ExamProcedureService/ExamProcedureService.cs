@@ -21,7 +21,7 @@ namespace StudentManagement.Service.ExamProcedureService
         {
             try
             {
-                var student = _dbContext.Students.SingleOrDefault(s => s.Id == request.StudentId);
+                var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == request.StudentId);
                 if (student == null)
                     return new EnterStudentExamScoreResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'StudentId' bilgisi girdiniz." };
 
@@ -41,7 +41,7 @@ namespace StudentManagement.Service.ExamProcedureService
             }
             catch (DbUpdateException dbex)
             {
-                return new EnterStudentExamScoreResponse { IsSuccess=false,Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+                return new EnterStudentExamScoreResponse { IsSuccess=false,Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {

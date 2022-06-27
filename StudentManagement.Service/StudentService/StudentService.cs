@@ -83,7 +83,7 @@ namespace StudentManagement.Service.StudentService
             }
             catch (DbUpdateException dbex)
             {
-                return new CreateStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+                return new CreateStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
@@ -106,7 +106,7 @@ namespace StudentManagement.Service.StudentService
             }
             catch(DbUpdateException dbex)
             {
-                return new DeleteStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+                return new DeleteStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ namespace StudentManagement.Service.StudentService
             }
             catch(DbUpdateException dbex)
             {
-                return new UpdateStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+                return new UpdateStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception)
             {

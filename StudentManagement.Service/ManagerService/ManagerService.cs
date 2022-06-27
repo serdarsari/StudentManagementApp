@@ -40,7 +40,7 @@ namespace StudentManagement.Service.ManagerService
             }
             catch (DbUpdateException dbex)
             {
-                return new CreateManagerResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+                return new CreateManagerResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
