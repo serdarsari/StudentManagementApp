@@ -80,7 +80,7 @@ namespace StudentManagement.Service.TeacherService
             }
             catch (DbUpdateException dbex)
             {
-                return new CreateTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+                return new CreateTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
@@ -103,7 +103,7 @@ namespace StudentManagement.Service.TeacherService
             }
             catch(DbUpdateException dbex)
             {
-                return new DeleteTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+                return new DeleteTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
@@ -130,11 +130,46 @@ namespace StudentManagement.Service.TeacherService
             }
             catch (DbUpdateException dbex)
             {
-                return new UpdateTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu." };
+                return new UpdateTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
                 return new UpdateTeacherResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
+            }
+        }
+
+        public async Task<AssignStudentToTeacherResponse> AssignStudentToTeacherAsync(AssignStudentToTeacherRequest request)
+        {
+            try
+            {
+                var teacher = await _dbContext.Teachers.SingleOrDefaultAsync(t => t.Id == request.TeacherId);
+                if (teacher == null)
+                    return new AssignStudentToTeacherResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'TeacherId' bilgisi girdiniz." };
+
+                List<StudentTeacher> studentTeacherList = new List<StudentTeacher>();
+                
+                foreach (var studentId in request.StudentIds)
+                {
+                    var studentTeacher = new StudentTeacher
+                    {
+                        StudentId = studentId,
+                        TeacherId = request.TeacherId,
+                    };
+                    studentTeacherList.Add(studentTeacher);
+                }
+
+                await _dbContext.AddRangeAsync(studentTeacherList);
+                await _dbContext.SaveChangesAsync();
+
+                return new AssignStudentToTeacherResponse { IsSuccess = true, Message = "Atama işlemi başarılı!" };
+            }
+            catch (DbUpdateException dbex)
+            {
+                return new AssignStudentToTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
+            }
+            catch (Exception ex)
+            {
+                return new AssignStudentToTeacherResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
             }
         }
     }

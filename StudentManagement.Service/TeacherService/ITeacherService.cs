@@ -9,5 +9,6 @@ namespace StudentManagement.Service.TeacherService
         Task<CreateTeacherResponse> CreateTeacherAsync(CreateTeacherRequest request);
         Task<DeleteTeacherResponse> DeleteTeacherAsync(int teacherId);
         Task<UpdateTeacherResponse> UpdateTeacherAsync(int teacherId, UpdateTeacherRequest request);
+        Task<AssignStudentToTeacherResponse> AssignStudentToTeacherAsync(AssignStudentToTeacherRequest request);
     }
 }
