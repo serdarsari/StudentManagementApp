@@ -65,5 +65,16 @@ namespace StudentManagementApp.API.Controllers
 
             return Ok(result.Message);
         }
+
+        [HttpPost]
+        [Route("AssignStudentToTeacher")]
+        public async Task<IActionResult> AssignStudentToTeacher([FromBody] AssignStudentToTeacherRequest request)
+        {
+            var result = await _service.AssignStudentToTeacherAsync(request);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return Ok(result.Message);
+        }
     }
 }
