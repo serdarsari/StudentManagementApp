@@ -4,10 +4,13 @@ using StudentManagement.Service.ExamProcedureService;
 using StudentManagement.Service.StudentService;
 using StudentManagement.Service.LessonService;
 using StudentManagement.Service.ManagerService;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
 builder.Services.AddDbContext<StudentManagementAppDbContext>();
 builder.Services.AddTransient<ITeacherService, TeacherService>();
 builder.Services.AddTransient<IExamProcedureService, ExamProcedureService>();

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.TeacherDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Common;
@@ -9,10 +10,12 @@ namespace StudentManagement.Service.TeacherService
     public class TeacherService : ITeacherService
     {
         private readonly StudentManagementAppDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public TeacherService(StudentManagementAppDbContext dbContext)
+        public TeacherService(StudentManagementAppDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<GetTeachersResponse> GetTeachersAsync(GetTeachersRequest request)
@@ -47,19 +50,7 @@ namespace StudentManagement.Service.TeacherService
                 if (teacher == null)
                     return new GetTeacherDetailResponse { ErrorMessage = "ERROR: Geçersiz 'teacherId' bilgisi girdiniz." };
 
-                var response = new GetTeacherDetailResponse
-                {
-                    RegistrationNumber = teacher.RegistrationNumber,
-                    FirstName = teacher.FirstName,
-                    LastName = teacher.LastName,
-                    PhoneNumber = teacher.PhoneNumber,
-                    Address = teacher.Address,
-                    Gender = teacher.Gender,
-                    Profession = teacher.Profession,
-                    Description = teacher.Description,
-                    Birthday = teacher.Birthday,
-                };
-
+                var response = _mapper.Map<GetTeacherDetailResponse>(teacher);
                 return response;
             }
             catch (Exception ex)
@@ -79,19 +70,8 @@ namespace StudentManagement.Service.TeacherService
                 var newId = lastId + 1;
                 string newRegistrationNumber = RegistrationNumberGenerator.Create(RegistrationNumberTypes.TCHR, newId);
 
-                var teacher = new Teacher
-                {
-                    RegistrationNumber = newRegistrationNumber,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    PhoneNumber = request.PhoneNumber,
-                    Address = request.Address,
-                    Birthday = request.Birthday,
-                    Gender = request.Gender,
-                    Profession = request.Profession,
-                    Description = request.Description,
-                    Age = DateTime.Now.Year - request.Birthday.Year
-                };
+                var teacher = _mapper.Map<Teacher>(request);
+                teacher.RegistrationNumber = newRegistrationNumber;
 
                 await _dbContext.AddAsync(teacher);
                 await _dbContext.SaveChangesAsync();

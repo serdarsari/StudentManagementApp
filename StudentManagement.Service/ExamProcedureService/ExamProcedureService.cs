@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.ExamProcedureDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Common;
@@ -8,10 +9,12 @@ namespace StudentManagement.Service.ExamProcedureService
     public class ExamProcedureService : IExamProcedureService
     {
         private readonly StudentManagementAppDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public ExamProcedureService(StudentManagementAppDbContext dbContext)
+        public ExamProcedureService(StudentManagementAppDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<EnterStudentExamScoreResponse> EnterStudentExamScoreAsync(EnterStudentExamScoreRequest request)
@@ -27,15 +30,10 @@ namespace StudentManagement.Service.ExamProcedureService
                 if (currentSemester == 0)
                     return new EnterStudentExamScoreResponse { IsSuccess = false, Message = "Not girmek için aktif semester bulunmamaktadır. Eylül-Ocak veya Ocak-Haziran ayları arasında not girişi yapılabilir." };
 
-                var examResult = new ExamResult
-                {
-                    Score = request.ExamScore,
-                    LessonId = request.LessonId,
-                    StudentId = request.StudentId,
-                    Grade = studentGrade,
-                    Semester = currentSemester
-                };
-
+                var examResult = _mapper.Map<ExamResult>(request);
+                examResult.Grade = studentGrade;
+                examResult.Semester = currentSemester;
+                
                 await _dbContext.AddAsync(examResult);
                 await _dbContext.SaveChangesAsync();
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.LessonDTO;
 using StudentManagement.Entity;
 
@@ -7,22 +8,19 @@ namespace StudentManagement.Service.LessonService
     public class LessonService : ILessonService
     {
         private readonly StudentManagementAppDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public LessonService(StudentManagementAppDbContext dbContext)
+        public LessonService(StudentManagementAppDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<CreateLessonResponse> CreateLessonAsync(CreateLessonRequest request)
         {
             try
             {
-                var lesson = new Lesson
-                {
-                    LessonCode = request.LessonCode,
-                    Name = request.Name,
-                    Description = request.Description,
-                };
+                var lesson = _mapper.Map<Lesson>(request);
 
                 await _dbContext.AddAsync(lesson);
                 await _dbContext.SaveChangesAsync();

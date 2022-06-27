@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.StudentDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Common;
@@ -9,10 +10,12 @@ namespace StudentManagement.Service.StudentService
     public class StudentService : IStudentService
     {
         private readonly StudentManagementAppDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public StudentService(StudentManagementAppDbContext dbContext)
+        public StudentService(StudentManagementAppDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<GetStudentsResponse> GetStudentsAsync(GetStudentsRequest request)
@@ -48,18 +51,8 @@ namespace StudentManagement.Service.StudentService
                 if (student == null)
                     return new GetStudentDetailResponse { ErrorMessage = "ERROR: Geçersiz 'studentId' bilgisi girdiniz." };
 
-                var response = new GetStudentDetailResponse{
-                    StudentId = student.StudentId,
-                    FirstName = student.FirstName,
-                    LastName = student.LastName,
-                    EmergencyCall = student.EmergencyCall,
-                    Birthday = student.Birthday,
-                    Gender = student.Gender,
-                    Address = student.Address,
-                    Grade = student.Grade,
-                    ClassBranch = student.ClassBranch,
-                    GPA = student.GPA
-                };
+                var response = _mapper.Map<GetStudentDetailResponse>(student);
+
                 return response;
             }
             catch (Exception ex)
@@ -80,19 +73,8 @@ namespace StudentManagement.Service.StudentService
                 var newId = lastId + 1;
                 string newRegistrationNumber = RegistrationNumberGenerator.Create(RegistrationNumberTypes.STDN, newId);
 
-                var student = new Student
-                {
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    EmergencyCall = request.EmergencyCall,
-                    Birthday = request.Birthday,
-                    Gender = request.Gender,
-                    Address = request.Address,
-                    Grade = request.Grade,
-                    ClassBranch = request.ClassBranch,
-                    Age = DateTime.Now.Year - request.Birthday.Year,
-                    StudentId = newRegistrationNumber
-                };
+                var student = _mapper.Map<Student>(request);
+                student.StudentId = newRegistrationNumber;
 
                 await _dbContext.AddAsync(student);
                 await _dbContext.SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.ManagerDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Common;
@@ -9,10 +10,12 @@ namespace StudentManagement.Service.ManagerService
     public class ManagerService : IManagerService
     {
         private readonly StudentManagementAppDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public ManagerService(StudentManagementAppDbContext dbContext)
+        public ManagerService(StudentManagementAppDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<CreateManagerResponse> CreateManagerAsync(CreateManagerRequest request)
@@ -27,14 +30,8 @@ namespace StudentManagement.Service.ManagerService
                 var newId = lastId + 1;
                 string newRegistrationNumber = RegistrationNumberGenerator.Create(RegistrationNumberTypes.MNGR, newId);
 
-                var manager = new Manager
-                {
-                    RegistrationNumber = newRegistrationNumber,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    PhoneNumber = request.PhoneNumber,
-                    Address = request.Address,
-                };
+                var manager = _mapper.Map<Manager>(request);
+                manager.RegistrationNumber = newRegistrationNumber;
 
                 await _dbContext.AddAsync(manager);
                 await _dbContext.SaveChangesAsync();
