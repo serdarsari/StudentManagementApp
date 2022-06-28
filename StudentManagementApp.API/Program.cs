@@ -20,8 +20,28 @@ using StudentManagementApp.API.Validations.ExamProcedureValidations;
 using StudentManagement.Service.ParentService;
 using StudentManagement.DTO.ParentDTO;
 using StudentManagementApp.API.Validations.ParentValidations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using StudentManagement.Service.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//JwtBearer
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Token:Issuer"],
+        ValidAudience = builder.Configuration["Token:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 // Add services to the container.
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -36,6 +56,7 @@ builder.Services.AddTransient<IStudentService, StudentService>();
 builder.Services.AddTransient<ILessonService, LessonService>();
 builder.Services.AddTransient<IManagerService, ManagerService>();
 builder.Services.AddTransient<IParentService, ParentService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 //Fluent Validation
 //Teacher
@@ -74,6 +95,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
 
 app.UseHttpsRedirection();
 
