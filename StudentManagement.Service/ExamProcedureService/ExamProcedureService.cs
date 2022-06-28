@@ -34,7 +34,7 @@ namespace StudentManagement.Service.ExamProcedureService
                 examResult.Grade = studentGrade;
                 examResult.Semester = currentSemester;
                 
-                await _dbContext.AddAsync(examResult);
+                await _dbContext.ExamResults.AddAsync(examResult);
                 await _dbContext.SaveChangesAsync();
 
                 return new EnterStudentExamScoreResponse { IsSuccess = true, Message = $"{request.StudentId} Id bilgisine sahip öğrenci için not girişi başarılı!" };

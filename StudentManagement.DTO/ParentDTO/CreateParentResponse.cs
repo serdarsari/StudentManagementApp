@@ -1,7 +1,7 @@
 ﻿
-namespace StudentManagement.DTO.TeacherDTO
+namespace StudentManagement.DTO.ParentDTO
 {
-    public class AssignStudentToTeacherResponse
+    public class CreateParentResponse
     {
         public bool IsSuccess { get; set; }
         public string Message { get; set; }

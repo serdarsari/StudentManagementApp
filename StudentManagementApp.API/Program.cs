@@ -17,6 +17,9 @@ using StudentManagement.DTO.LessonDTO;
 using StudentManagementApp.API.Validations.LessonValidations;
 using StudentManagement.DTO.ExamProcedureDTO;
 using StudentManagementApp.API.Validations.ExamProcedureValidations;
+using StudentManagement.Service.ParentService;
+using StudentManagement.DTO.ParentDTO;
+using StudentManagementApp.API.Validations.ParentValidations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,12 +35,15 @@ builder.Services.AddTransient<IExamProcedureService, ExamProcedureService>();
 builder.Services.AddTransient<IStudentService, StudentService>();
 builder.Services.AddTransient<ILessonService, LessonService>();
 builder.Services.AddTransient<IManagerService, ManagerService>();
+builder.Services.AddTransient<IParentService, ParentService>();
 
 //Fluent Validation
 //Teacher
 builder.Services.AddTransient<IValidator<CreateTeacherRequest>, CreateTeacherRequestValidator>();
 builder.Services.AddTransient<IValidator<UpdateTeacherRequest>, UpdateTeacherRequestValidator>();
 builder.Services.AddTransient<IValidator<GetTeachersRequest>, GetTeachersRequestValidator>();
+builder.Services.AddTransient<IValidator<AssignSingleStudentToTeacherRequest>, AssignSingleStudentToTeacherRequestValidator>();
+builder.Services.AddTransient<IValidator<AssignMultipleStudentToTeacherRequest>, AssignMultipleStudentToTeacherRequestValidator>();
 //Student
 builder.Services.AddTransient<IValidator<CreateStudentRequest>, CreateStudentRequestValidator>();
 builder.Services.AddTransient<IValidator<UpdateStudentRequest>, UpdateStudentRequestValidator>();
@@ -48,6 +54,10 @@ builder.Services.AddTransient<IValidator<CreateManagerRequest>, CreateManagerReq
 builder.Services.AddTransient<IValidator<CreateLessonRequest>, CreateLessonRequestValidator>();
 //ExamProcedure
 builder.Services.AddTransient<IValidator<EnterStudentExamScoreRequest>, EnterStudentExamScoreRequestValidator>();
+//Parent
+builder.Services.AddTransient<IValidator<CreateParentRequest>, CreateParentRequestValidator>();
+builder.Services.AddTransient<IValidator<AssignSingleStudentToParentRequest>, AssignSingleStudentToParentRequestValidator>();
+
 
 
 

@@ -73,7 +73,7 @@ namespace StudentManagement.Service.TeacherService
                 var teacher = _mapper.Map<Teacher>(request);
                 teacher.RegistrationNumber = newRegistrationNumber;
 
-                await _dbContext.AddAsync(teacher);
+                await _dbContext.Teachers.AddAsync(teacher);
                 await _dbContext.SaveChangesAsync();
 
                 return new CreateTeacherResponse { IsSuccess = true ,Message = "Oluşturma işlemi başarılı!"};
@@ -138,13 +138,13 @@ namespace StudentManagement.Service.TeacherService
             }
         }
 
-        public async Task<AssignStudentToTeacherResponse> AssignStudentToTeacherAsync(AssignStudentToTeacherRequest request)
+        public async Task<AssignMultipleStudentToTeacherResponse> AssignMultipleStudentToTeacherAsync(AssignMultipleStudentToTeacherRequest request)
         {
             try
             {
                 var teacher = await _dbContext.Teachers.SingleOrDefaultAsync(t => t.Id == request.TeacherId);
                 if (teacher == null)
-                    return new AssignStudentToTeacherResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'TeacherId' bilgisi girdiniz." };
+                    return new AssignMultipleStudentToTeacherResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'TeacherId' bilgisi girdiniz." };
 
                 List<StudentTeacher> studentTeacherList = new List<StudentTeacher>();
                 
@@ -158,18 +158,47 @@ namespace StudentManagement.Service.TeacherService
                     studentTeacherList.Add(studentTeacher);
                 }
 
-                await _dbContext.AddRangeAsync(studentTeacherList);
+                await _dbContext.StudentTeacher.AddRangeAsync(studentTeacherList);
                 await _dbContext.SaveChangesAsync();
 
-                return new AssignStudentToTeacherResponse { IsSuccess = true, Message = "Atama işlemi başarılı!" };
+                return new AssignMultipleStudentToTeacherResponse { IsSuccess = true, Message = "Atama işlemi başarılı!" };
             }
             catch (DbUpdateException dbex)
             {
-                return new AssignStudentToTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
+                return new AssignMultipleStudentToTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
-                return new AssignStudentToTeacherResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
+                return new AssignMultipleStudentToTeacherResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
+            }
+        }
+
+        public async Task<AssignSingleStudentToTeacherResponse> AssignSingleStudentToTeacherAsync(AssignSingleStudentToTeacherRequest request)
+        {
+            try
+            {
+                var teacher = await _dbContext.Teachers.SingleOrDefaultAsync(t => t.Id == request.TeacherId);
+                if (teacher == null)
+                    return new AssignSingleStudentToTeacherResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'TeacherId' bilgisi girdiniz." };
+
+                var studentTeacher = new StudentTeacher
+                {
+                    StudentId = request.StudentId,
+                    TeacherId = request.TeacherId,
+                };
+
+                await _dbContext.StudentTeacher.AddAsync(studentTeacher);
+                await _dbContext.SaveChangesAsync();
+
+                return new AssignSingleStudentToTeacherResponse { IsSuccess = true, Message = "Atama işlemi başarılı!" };
+            }
+            catch(DbUpdateException dbex)
+            {
+                return new AssignSingleStudentToTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
+            }
+            catch (Exception)
+            {
+                return new AssignSingleStudentToTeacherResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
             }
         }
     }

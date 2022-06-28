@@ -76,7 +76,7 @@ namespace StudentManagement.Service.StudentService
                 var student = _mapper.Map<Student>(request);
                 student.StudentId = newRegistrationNumber;
 
-                await _dbContext.AddAsync(student);
+                await _dbContext.Students.AddAsync(student);
                 await _dbContext.SaveChangesAsync();
 
                 return new CreateStudentResponse { IsSuccess = true , Message = "Oluşturma işlemi başarılı!"};

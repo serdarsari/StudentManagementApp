@@ -67,10 +67,21 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPost]
-        [Route("AssignStudentToTeacher")]
-        public async Task<IActionResult> AssignStudentToTeacher([FromBody] AssignStudentToTeacherRequest request)
+        [Route("AssignMultipleStudentToTeacher")]
+        public async Task<IActionResult> AssignMultipleStudentToTeacher([FromBody] AssignMultipleStudentToTeacherRequest request)
         {
-            var result = await _service.AssignStudentToTeacherAsync(request);
+            var result = await _service.AssignMultipleStudentToTeacherAsync(request);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return Ok(result.Message);
+        }
+
+        [HttpPost]
+        [Route("AssignSingleStudentToTeacher")]
+        public async Task<IActionResult> AssignSingleStudentToTeacher([FromBody] AssignSingleStudentToTeacherRequest request)
+        {
+            var result = await _service.AssignSingleStudentToTeacherAsync(request);
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
 

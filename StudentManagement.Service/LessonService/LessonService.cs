@@ -22,7 +22,7 @@ namespace StudentManagement.Service.LessonService
             {
                 var lesson = _mapper.Map<Lesson>(request);
 
-                await _dbContext.AddAsync(lesson);
+                await _dbContext.Lessons.AddAsync(lesson);
                 await _dbContext.SaveChangesAsync();
 
                 return new CreateLessonResponse { IsSuccess = true, Message = "Oluşturma işlemi başarılı!" };

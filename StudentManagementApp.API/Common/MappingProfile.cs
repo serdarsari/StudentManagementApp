@@ -2,6 +2,7 @@
 using StudentManagement.DTO.ExamProcedureDTO;
 using StudentManagement.DTO.LessonDTO;
 using StudentManagement.DTO.ManagerDTO;
+using StudentManagement.DTO.ParentDTO;
 using StudentManagement.DTO.StudentDTO;
 using StudentManagement.DTO.TeacherDTO;
 using StudentManagement.Entity;
@@ -28,6 +29,9 @@ namespace StudentManagementApp.API.Common
 
             //ExamProcedure
             CreateMap<EnterStudentExamScoreRequest, ExamResult>();
+
+            //Parent
+            CreateMap<CreateParentRequest, Parent>();
         }
     }
 }

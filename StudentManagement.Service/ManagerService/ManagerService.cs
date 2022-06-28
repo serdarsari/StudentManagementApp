@@ -33,7 +33,7 @@ namespace StudentManagement.Service.ManagerService
                 var manager = _mapper.Map<Manager>(request);
                 manager.RegistrationNumber = newRegistrationNumber;
 
-                await _dbContext.AddAsync(manager);
+                await _dbContext.Managers.AddAsync(manager);
                 await _dbContext.SaveChangesAsync();
 
                 return new CreateManagerResponse { IsSuccess = true, Message = "Oluşturma işlemi başarılı!" };
