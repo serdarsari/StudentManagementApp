@@ -172,34 +172,5 @@ namespace StudentManagement.Service.TeacherService
                 return new AssignMultipleStudentToTeacherResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
             }
         }
-
-        public async Task<AssignSingleStudentToTeacherResponse> AssignSingleStudentToTeacherAsync(AssignSingleStudentToTeacherRequest request)
-        {
-            try
-            {
-                var teacher = await _dbContext.Teachers.SingleOrDefaultAsync(t => t.Id == request.TeacherId);
-                if (teacher == null)
-                    return new AssignSingleStudentToTeacherResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'TeacherId' bilgisi girdiniz." };
-
-                var studentTeacher = new StudentTeacher
-                {
-                    StudentId = request.StudentId,
-                    TeacherId = request.TeacherId,
-                };
-
-                await _dbContext.StudentTeacher.AddAsync(studentTeacher);
-                await _dbContext.SaveChangesAsync();
-
-                return new AssignSingleStudentToTeacherResponse { IsSuccess = true, Message = "Atama işlemi başarılı!" };
-            }
-            catch(DbUpdateException dbex)
-            {
-                return new AssignSingleStudentToTeacherResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
-            }
-            catch (Exception)
-            {
-                return new AssignSingleStudentToTeacherResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
-            }
-        }
     }
 }

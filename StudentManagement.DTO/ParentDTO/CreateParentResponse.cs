@@ -1,9 +1,9 @@
 ﻿
+using StudentManagement.DTO.BaseClasses;
+
 namespace StudentManagement.DTO.ParentDTO
 {
-    public class CreateParentResponse
+    public class CreateParentResponse : BaseResponse
     {
-        public bool IsSuccess { get; set; }
-        public string Message { get; set; }
     }
 }

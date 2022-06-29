@@ -1,9 +1,9 @@
 ﻿
+using StudentManagement.DTO.BaseClasses;
+
 namespace StudentManagement.DTO.ManagerDTO
 {
-    public class CreateManagerResponse
+    public class CreateManagerResponse : BaseResponse
     {
-        public bool IsSuccess { get; set; }
-        public string Message { get; set; }
     }
 }

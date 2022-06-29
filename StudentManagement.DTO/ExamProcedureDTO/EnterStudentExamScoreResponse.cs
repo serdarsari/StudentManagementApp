@@ -1,9 +1,9 @@
 ﻿
+using StudentManagement.DTO.BaseClasses;
+
 namespace StudentManagement.DTO.ExamProcedureDTO
 {
-    public class EnterStudentExamScoreResponse
+    public class EnterStudentExamScoreResponse : BaseResponse
     {
-        public bool IsSuccess { get; set; }
-        public string Message { get; set; }
     }
 }

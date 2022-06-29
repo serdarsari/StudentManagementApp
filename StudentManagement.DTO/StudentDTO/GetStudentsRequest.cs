@@ -1,9 +1,8 @@
-﻿
+﻿using StudentManagement.DTO.BaseClasses;
+
 namespace StudentManagement.DTO.StudentDTO
 {
-    public class GetStudentsRequest
+    public class GetStudentsRequest : GetAllBaseRequest
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
     }
 }
