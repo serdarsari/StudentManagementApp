@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.ExamProcedureDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Common;
+using StudentManagement.Service.Enums;
+using StudentManagement.Service.LogService;
 
 namespace StudentManagement.Service.ExamProcedureService
 {
@@ -10,11 +12,13 @@ namespace StudentManagement.Service.ExamProcedureService
     {
         private readonly StudentManagementAppDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILoggerService _loggerService;
 
-        public ExamProcedureService(StudentManagementAppDbContext dbContext, IMapper mapper)
+        public ExamProcedureService(StudentManagementAppDbContext dbContext, IMapper mapper, ILoggerService loggerService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _loggerService = loggerService;
         }
 
         public async Task<EnterStudentExamScoreResponse> EnterStudentExamScoreAsync(EnterStudentExamScoreRequest request)
@@ -23,7 +27,10 @@ namespace StudentManagement.Service.ExamProcedureService
             {
                 var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == request.StudentId);
                 if (student == null)
+                {
+                    _loggerService.Log("EnterStudentExamScoreAsync invalid StudentId attempt.", CustomLogLevel.Warning);
                     return new EnterStudentExamScoreResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'StudentId' bilgisi girdiniz." };
+                }
 
                 var studentGrade = student.Grade;
                 var currentSemester = CommonFunctions.GetCurrentSemester();
@@ -41,11 +48,12 @@ namespace StudentManagement.Service.ExamProcedureService
             }
             catch (DbUpdateException dbex)
             {
+                _loggerService.Log(dbex.Message, CustomLogLevel.Error, dbex.StackTrace);
                 return new EnterStudentExamScoreResponse { IsSuccess=false,Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
-                //Log to db or file etc. ex.Message
+                _loggerService.Log(ex.Message, CustomLogLevel.Error, ex.StackTrace);
                 return new EnterStudentExamScoreResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
             }
         }

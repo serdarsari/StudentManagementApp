@@ -4,6 +4,7 @@ using StudentManagement.DTO.ManagerDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Common;
 using StudentManagement.Service.Enums;
+using StudentManagement.Service.LogService;
 
 namespace StudentManagement.Service.ManagerService
 {
@@ -11,11 +12,13 @@ namespace StudentManagement.Service.ManagerService
     {
         private readonly StudentManagementAppDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILoggerService _loggerService;
 
-        public ManagerService(StudentManagementAppDbContext dbContext, IMapper mapper)
+        public ManagerService(StudentManagementAppDbContext dbContext, IMapper mapper, ILoggerService loggerService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _loggerService = loggerService;
         }
 
         public async Task<CreateManagerResponse> CreateManagerAsync(CreateManagerRequest request)
@@ -40,10 +43,12 @@ namespace StudentManagement.Service.ManagerService
             }
             catch (DbUpdateException dbex)
             {
+                _loggerService.Log(dbex.Message, CustomLogLevel.Error, dbex.StackTrace);
                 return new CreateManagerResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
+                _loggerService.Log(ex.Message, CustomLogLevel.Error, ex.StackTrace);
                 return new CreateManagerResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
             }
 

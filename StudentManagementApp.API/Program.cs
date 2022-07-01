@@ -24,6 +24,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using StudentManagement.Service.UserService;
+using StudentManagement.Service.LogService;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,9 +49,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 //DbContext
-builder.Services.AddDbContext<StudentManagementAppDbContext>();
+builder.Services.AddDbContext<StudentManagementAppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StudentManagementAppDbConnStr"), b => b.MigrationsAssembly("StudentManagementApp.API"));
+});
 
 //Dependency Injection
+builder.Services.AddSingleton<ILoggerService, FileLoggerService>();
 builder.Services.AddTransient<ITeacherService, TeacherService>();
 builder.Services.AddTransient<IExamProcedureService, ExamProcedureService>();
 builder.Services.AddTransient<IStudentService, StudentService>();
@@ -63,7 +69,6 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IValidator<CreateTeacherRequest>, CreateTeacherRequestValidator>();
 builder.Services.AddTransient<IValidator<UpdateTeacherRequest>, UpdateTeacherRequestValidator>();
 builder.Services.AddTransient<IValidator<GetTeachersRequest>, GetTeachersRequestValidator>();
-builder.Services.AddTransient<IValidator<AssignSingleStudentToTeacherRequest>, AssignSingleStudentToTeacherRequestValidator>();
 builder.Services.AddTransient<IValidator<AssignMultipleStudentToTeacherRequest>, AssignMultipleStudentToTeacherRequestValidator>();
 //Student
 builder.Services.AddTransient<IValidator<CreateStudentRequest>, CreateStudentRequestValidator>();

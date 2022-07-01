@@ -10,6 +10,5 @@ namespace StudentManagement.Service.TeacherService
         Task<DeleteTeacherResponse> DeleteTeacherAsync(int teacherId);
         Task<UpdateTeacherResponse> UpdateTeacherAsync(int teacherId, UpdateTeacherRequest request);
         Task<AssignMultipleStudentToTeacherResponse> AssignMultipleStudentToTeacherAsync(AssignMultipleStudentToTeacherRequest request);
-        Task<AssignSingleStudentToTeacherResponse> AssignSingleStudentToTeacherAsync(AssignSingleStudentToTeacherRequest request);
     }
 }

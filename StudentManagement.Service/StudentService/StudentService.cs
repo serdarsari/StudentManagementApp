@@ -4,6 +4,7 @@ using StudentManagement.DTO.StudentDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Common;
 using StudentManagement.Service.Enums;
+using StudentManagement.Service.LogService;
 
 namespace StudentManagement.Service.StudentService
 {
@@ -11,11 +12,13 @@ namespace StudentManagement.Service.StudentService
     {
         private readonly StudentManagementAppDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILoggerService _loggerService;
 
-        public StudentService(StudentManagementAppDbContext dbContext, IMapper mapper)
+        public StudentService(StudentManagementAppDbContext dbContext, IMapper mapper, ILoggerService loggerService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _loggerService = loggerService;
         }
 
         public async Task<GetStudentsResponse> GetStudentsAsync(GetStudentsRequest request)
@@ -49,14 +52,18 @@ namespace StudentManagement.Service.StudentService
             {
                 var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == studentId);
                 if (student == null)
+                {
+                    _loggerService.Log("GetStudentDetailAsync invalid studentId attempt.", CustomLogLevel.Warning);
                     return new GetStudentDetailResponse { ErrorMessage = "ERROR: Geçersiz 'studentId' bilgisi girdiniz." };
-
+                }
+                
                 var response = _mapper.Map<GetStudentDetailResponse>(student);
 
                 return response;
             }
             catch (Exception ex)
             {
+                _loggerService.Log(ex.Message, CustomLogLevel.Error, ex.StackTrace);
                 return new GetStudentDetailResponse { ErrorMessage = "Bilinmeyen bir hata oluştu." };
             }
         }
@@ -83,10 +90,12 @@ namespace StudentManagement.Service.StudentService
             }
             catch (DbUpdateException dbex)
             {
+                _loggerService.Log(dbex.Message, CustomLogLevel.Error, dbex.StackTrace);
                 return new CreateStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
+                _loggerService.Log(ex.Message, CustomLogLevel.Error, ex.StackTrace);
                 return new CreateStudentResponse { IsSuccess=false, Message = "Bilinmeyen bir hata oluştu." };
             }
         }
@@ -97,7 +106,10 @@ namespace StudentManagement.Service.StudentService
             {
                 var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == studentId);
                 if (student == null)
+                {
+                    _loggerService.Log("DeleteStudentAsync invalid studentId attempt.", CustomLogLevel.Warning);
                     return new DeleteStudentResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'studentId' bilgisi girdiniz." };
+                }
 
                 _dbContext.Students.Remove(student);
                 await _dbContext.SaveChangesAsync();
@@ -106,10 +118,12 @@ namespace StudentManagement.Service.StudentService
             }
             catch(DbUpdateException dbex)
             {
+                _loggerService.Log(dbex.Message, CustomLogLevel.Error, dbex.StackTrace);
                 return new DeleteStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
             catch (Exception ex)
             {
+                _loggerService.Log(ex.Message, CustomLogLevel.Error, ex.StackTrace);
                 return new DeleteStudentResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
             }
         }
@@ -120,7 +134,10 @@ namespace StudentManagement.Service.StudentService
             {
                 var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == studentId);
                 if (student == null)
+                {
+                    _loggerService.Log("UpdateStudentAsync invalid studentId attempt.", CustomLogLevel.Warning);
                     return new UpdateStudentResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'studentId' bilgisi girdiniz." };
+                }
 
                 student.EmergencyCall = request.EmergencyCall != student.EmergencyCall ? request.EmergencyCall : student.EmergencyCall;
                 student.Address = request.Address != student.Address ? request.Address : student.Address;
@@ -133,10 +150,12 @@ namespace StudentManagement.Service.StudentService
             }
             catch(DbUpdateException dbex)
             {
+                _loggerService.Log(dbex.Message, CustomLogLevel.Error, dbex.StackTrace);
                 return new UpdateStudentResponse { IsSuccess = false, Message = "Veritabanına kayıt sırasında bir sorun oluştu. İşlem yapmaya çalıştığınız Id'leri kontrol edin." };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _loggerService.Log(ex.Message, CustomLogLevel.Error, ex.StackTrace);
                 return new UpdateStudentResponse { IsSuccess = false, Message = "Bilinmeyen bir hata oluştu." };
             }
         }
