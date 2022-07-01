@@ -7,6 +7,7 @@ namespace StudentManagement.Service.LogService
         private readonly string _today = DateTime.Now.ToString("dd-MM-yyyy");
         public void Log(string message, CustomLogLevel logLevel)
         {
+            System.IO.Directory.CreateDirectory("Logs");
             using (StreamWriter w = File.AppendText($@"Logs\{_today}_log.txt"))
             {
                 Write(message, logLevel, w, null);
@@ -15,6 +16,7 @@ namespace StudentManagement.Service.LogService
 
         public void Log(string message, CustomLogLevel logLevel, string? stackTrace)
         {
+            System.IO.Directory.CreateDirectory("Logs");
             using (StreamWriter w = File.AppendText($@"Logs\{_today}_log.txt"))
             {
                 Write(message, logLevel, w, stackTrace);
