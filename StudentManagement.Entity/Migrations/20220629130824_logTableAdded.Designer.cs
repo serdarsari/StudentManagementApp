@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagement.Entity;
 
@@ -11,9 +12,10 @@ using StudentManagement.Entity;
 namespace StudentManagement.Entity.Migrations
 {
     [DbContext(typeof(StudentManagementAppDbContext))]
-    partial class StudentManagementAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220629130824_logTableAdded")]
+    partial class logTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

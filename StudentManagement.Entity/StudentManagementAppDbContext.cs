@@ -4,11 +4,7 @@ namespace StudentManagement.Entity
 {
     public class StudentManagementAppDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=StudentManagementApp;Integrated Security=True");
-        }
+        public StudentManagementAppDbContext(DbContextOptions<StudentManagementAppDbContext> options):base(options){}
 
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
@@ -19,5 +15,6 @@ namespace StudentManagement.Entity
         public DbSet<ParentStudent> ParentStudent { get; set; }
         public DbSet<StudentTeacher> StudentTeacher { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Log> Logs { get; set; }
     }
 }
