@@ -1,5 +1,4 @@
 using StudentManagement.Entity;
-using StudentManagement.Service.TeacherService;
 using StudentManagement.Service.ExamProcedureService;
 using StudentManagement.Service.StudentService;
 using StudentManagement.Service.LessonService;
@@ -8,7 +7,6 @@ using System.Reflection;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using StudentManagementApp.API.Validations.TeacherValidations;
-using StudentManagement.DTO.TeacherDTO;
 using StudentManagement.DTO.StudentDTO;
 using StudentManagementApp.API.Validations.StudentValidations;
 using StudentManagement.DTO.ManagerDTO;
@@ -24,8 +22,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using StudentManagement.Service.UserService;
-using StudentManagement.Service.LogService;
 using Microsoft.EntityFrameworkCore;
+using StudentManagement.Service.LoggerService;
+using StudentManagement.Service.Core.IConfiguration;
+using StudentManagement.Service.Core;
+using MediatR;
+using StudentManagement.Service.Core.Features.Commands.AssignMultipleStudentToTeacher;
+using StudentManagement.Service.Core.Features.Commands.CreateTeacher;
+using StudentManagement.Service.Core.Features.Queries.GetTeachers;
+using StudentManagement.Service.Core.Features.Commands.UpdateTeacher;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,9 +59,10 @@ builder.Services.AddDbContext<StudentManagementAppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StudentManagementAppDbConnStr"), b => b.MigrationsAssembly("StudentManagementApp.API"));
 });
 
+
+
 //Dependency Injection
 builder.Services.AddSingleton<ILoggerService, FileLoggerService>();
-builder.Services.AddTransient<ITeacherService, TeacherService>();
 builder.Services.AddTransient<IExamProcedureService, ExamProcedureService>();
 builder.Services.AddTransient<IStudentService, StudentService>();
 builder.Services.AddTransient<ILessonService, LessonService>();
@@ -66,10 +72,10 @@ builder.Services.AddTransient<IUserService, UserService>();
 
 //Fluent Validation
 //Teacher
-builder.Services.AddTransient<IValidator<CreateTeacherRequest>, CreateTeacherRequestValidator>();
-builder.Services.AddTransient<IValidator<UpdateTeacherRequest>, UpdateTeacherRequestValidator>();
-builder.Services.AddTransient<IValidator<GetTeachersRequest>, GetTeachersRequestValidator>();
-builder.Services.AddTransient<IValidator<AssignMultipleStudentToTeacherRequest>, AssignMultipleStudentToTeacherRequestValidator>();
+builder.Services.AddTransient<IValidator<CreateTeacherCommand>, CreateTeacherRequestValidator>();
+builder.Services.AddTransient<IValidator<UpdateTeacherCommand>, UpdateTeacherRequestValidator>();
+builder.Services.AddTransient<IValidator<GetTeachersQuery>, GetTeachersRequestValidator>();
+builder.Services.AddTransient<IValidator<AssignMultipleStudentToTeacherCommand>, AssignMultipleStudentToTeacherRequestValidator>();
 //Student
 builder.Services.AddTransient<IValidator<CreateStudentRequest>, CreateStudentRequestValidator>();
 builder.Services.AddTransient<IValidator<UpdateStudentRequest>, UpdateStudentRequestValidator>();
@@ -91,6 +97,11 @@ builder.Services.AddControllers().AddFluentValidation(i => i.DisableDataAnnotati
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//UnitOfWork
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

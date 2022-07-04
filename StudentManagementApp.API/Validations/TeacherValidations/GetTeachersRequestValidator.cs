@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using StudentManagement.DTO.TeacherDTO;
+using StudentManagement.Service.Core.Features.Queries.GetTeachers;
 
 namespace StudentManagementApp.API.Validations.TeacherValidations
 {
-    public class GetTeachersRequestValidator : AbstractValidator<GetTeachersRequest>
+    public class GetTeachersRequestValidator : AbstractValidator<GetTeachersQuery>
     {
         public GetTeachersRequestValidator()
         {

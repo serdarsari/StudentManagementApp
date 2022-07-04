@@ -1,6 +1,6 @@
 # Student Management Application WebAPI
 
-**Content Overview**
+**Technical Overview**
 
 .Net 6.0
 
@@ -15,6 +15,12 @@ EF Core
 AutoMapper
 
 FluentValidation
+
+MediatR
+
+CQRS
+
+Generic Repository Pattern
 
 ----- Geliştirmeye devam ediyorum her gün eklemeler oldukça bu alan güncellenecek.
 

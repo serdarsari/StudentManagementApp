@@ -4,7 +4,7 @@ using StudentManagement.DTO.StudentDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Common;
 using StudentManagement.Service.Enums;
-using StudentManagement.Service.LogService;
+using StudentManagement.Service.LoggerService;
 
 namespace StudentManagement.Service.StudentService
 {

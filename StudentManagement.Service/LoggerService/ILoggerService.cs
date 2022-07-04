@@ -1,6 +1,6 @@
 ﻿using StudentManagement.Service.Enums;
 
-namespace StudentManagement.Service.LogService
+namespace StudentManagement.Service.LoggerService
 {
     public interface ILoggerService
     {

@@ -6,6 +6,7 @@ using StudentManagement.DTO.ParentDTO;
 using StudentManagement.DTO.StudentDTO;
 using StudentManagement.DTO.TeacherDTO;
 using StudentManagement.Entity;
+using StudentManagement.Service.Core.Features.Commands.CreateTeacher;
 
 namespace StudentManagementApp.API.Common
 {
@@ -15,7 +16,8 @@ namespace StudentManagementApp.API.Common
         {
             //Teacher
             CreateMap<Teacher, GetTeacherDetailResponse>();
-            CreateMap<CreateTeacherRequest, Teacher>().ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.Now.Year - src.Birthday.Year));
+            //CreateMap<CreateTeacherRequest, Teacher>().ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.Now.Year - src.Birthday.Year));
+            CreateMap<CreateTeacherCommand, Teacher>().ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.Now.Year - src.Birthday.Year));
 
             //Student
             CreateMap<Student, GetStudentDetailResponse>();

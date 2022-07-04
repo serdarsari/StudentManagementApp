@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using StudentManagement.DTO.TeacherDTO;
+using StudentManagement.Service.Core.Features.Commands.CreateTeacher;
 
 namespace StudentManagementApp.API.Validations.TeacherValidations
 {
-    public class CreateTeacherRequestValidator : AbstractValidator<CreateTeacherRequest>
+    public class CreateTeacherRequestValidator : AbstractValidator<CreateTeacherCommand>
     {
         public CreateTeacherRequestValidator()
         {

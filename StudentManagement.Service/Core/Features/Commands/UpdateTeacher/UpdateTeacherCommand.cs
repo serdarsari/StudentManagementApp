@@ -1,7 +1,9 @@
-﻿
-namespace StudentManagement.DTO.TeacherDTO
+﻿using MediatR;
+using StudentManagement.DTO.TeacherDTO;
+
+namespace StudentManagement.Service.Core.Features.Commands.UpdateTeacher
 {
-    public class UpdateTeacherRequest
+    public partial class UpdateTeacherCommand : IRequest<UpdateTeacherResponse>
     {
         public int TeacherId { get; set; }
         public string PhoneNumber { get; set; }

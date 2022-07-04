@@ -1,7 +1,9 @@
-﻿
-namespace StudentManagement.DTO.TeacherDTO
+﻿using MediatR;
+using StudentManagement.DTO.TeacherDTO;
+
+namespace StudentManagement.Service.Core.Features.Commands.CreateTeacher
 {
-    public class CreateTeacherRequest
+    public partial class CreateTeacherCommand : IRequest<CreateTeacherResponse>
     {
         public int LessonId { get; set; }
         public string FirstName { get; set; }

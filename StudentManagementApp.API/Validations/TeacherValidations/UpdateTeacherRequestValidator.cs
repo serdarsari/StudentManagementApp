@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using StudentManagement.DTO.TeacherDTO;
+using StudentManagement.Service.Core.Features.Commands.UpdateTeacher;
 
 namespace StudentManagementApp.API.Validations.TeacherValidations
 {
-    public class UpdateTeacherRequestValidator : AbstractValidator<UpdateTeacherRequest>
+    public class UpdateTeacherRequestValidator : AbstractValidator<UpdateTeacherCommand>
     {
         public UpdateTeacherRequestValidator()
         {

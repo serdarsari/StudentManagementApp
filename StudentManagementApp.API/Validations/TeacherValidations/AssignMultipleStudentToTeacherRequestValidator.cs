@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using StudentManagement.DTO.TeacherDTO;
+using StudentManagement.Service.Core.Features.Commands.AssignMultipleStudentToTeacher;
 
 namespace StudentManagementApp.API.Validations.TeacherValidations
 {
-    public class AssignMultipleStudentToTeacherRequestValidator : AbstractValidator<AssignMultipleStudentToTeacherRequest>
+    public class AssignMultipleStudentToTeacherRequestValidator : AbstractValidator<AssignMultipleStudentToTeacherCommand>
     {
         public AssignMultipleStudentToTeacherRequestValidator()
         {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.ParentDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Enums;
-using StudentManagement.Service.LogService;
+using StudentManagement.Service.LoggerService;
 
 namespace StudentManagement.Service.ParentService
 {
