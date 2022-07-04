@@ -8,6 +8,6 @@ namespace StudentManagement.Service.StudentService
         Task<GetStudentDetailResponse> GetStudentDetailAsync(int studentId);
         Task<CreateStudentResponse> CreateStudentAsync(CreateStudentRequest request);
         Task<DeleteStudentResponse> DeleteStudentAsync(int studentId);
-        Task<UpdateStudentResponse> UpdateStudentAsync(int studentId, UpdateStudentRequest request);
+        Task<UpdateStudentResponse> UpdateStudentAsync(UpdateStudentRequest request);
     }
 }

@@ -17,7 +17,7 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateParent([FromBody] CreateParentRequest request)
+        public async Task<IActionResult> CreateParent(CreateParentRequest request)
         {
             var result = await _service.CreateParentAsync(request);
             if(!result.IsSuccess)
@@ -28,7 +28,7 @@ namespace StudentManagementApp.API.Controllers
 
         [HttpPost]
         [Route("AssignSingleStudentToParent")]
-        public async Task<IActionResult> AssignSingleStudentToParentAsync([FromBody] AssignSingleStudentToParentRequest request)
+        public async Task<IActionResult> AssignSingleStudentToParentAsync(AssignSingleStudentToParentRequest request)
         {
             var result = await _service.AssignSingleStudentToParentAsync(request);
             if (!result.IsSuccess)

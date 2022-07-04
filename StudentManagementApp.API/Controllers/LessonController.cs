@@ -17,7 +17,7 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateLesson([FromBody] CreateLessonRequest request)
+        public async Task<IActionResult> CreateLesson(CreateLessonRequest request)
         {
             var result = await _service.CreateLessonAsync(request);
 

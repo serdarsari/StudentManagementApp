@@ -17,7 +17,7 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EnterStudentExamScore([FromBody] EnterStudentExamScoreRequest request)
+        public async Task<IActionResult> EnterStudentExamScore(EnterStudentExamScoreRequest request)
         {
             var result = await _service.EnterStudentExamScoreAsync(request);
 

@@ -17,7 +17,7 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateManager([FromBody] CreateManagerRequest request)
+        public async Task<IActionResult> CreateManager(CreateManagerRequest request)
         {
             var result = await _service.CreateManagerAsync(request);
 

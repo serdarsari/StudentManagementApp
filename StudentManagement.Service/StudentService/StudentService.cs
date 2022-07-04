@@ -128,15 +128,15 @@ namespace StudentManagement.Service.StudentService
             }
         }
 
-        public async Task<UpdateStudentResponse> UpdateStudentAsync(int studentId, UpdateStudentRequest request)
+        public async Task<UpdateStudentResponse> UpdateStudentAsync(UpdateStudentRequest request)
         {
             try
             {
-                var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == studentId);
+                var student = await _dbContext.Students.SingleOrDefaultAsync(s => s.Id == request.StudentId);
                 if (student == null)
                 {
                     _loggerService.Log("UpdateStudentAsync invalid studentId attempt.", CustomLogLevel.Warning);
-                    return new UpdateStudentResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'studentId' bilgisi girdiniz." };
+                    return new UpdateStudentResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'StudentId' bilgisi girdiniz." };
                 }
 
                 student.EmergencyCall = request.EmergencyCall != student.EmergencyCall ? request.EmergencyCall : student.EmergencyCall;

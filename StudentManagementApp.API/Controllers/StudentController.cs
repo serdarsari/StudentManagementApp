@@ -17,7 +17,7 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetStudents([FromQuery] GetStudentsRequest request)
+        public async Task<IActionResult> GetStudents(GetStudentsRequest request)
         {
             var result = await _service.GetStudentsAsync(request);
             return Ok(result);
@@ -34,7 +34,7 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateStudent([FromBody] CreateStudentRequest request)
+        public async Task<IActionResult> CreateStudent(CreateStudentRequest request)
         {
             var result = await _service.CreateStudentAsync(request);
 
@@ -56,9 +56,9 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPut("{studentId}")]
-        public async Task<IActionResult> UpdateStudent(int studentId, UpdateStudentRequest request)
+        public async Task<IActionResult> UpdateStudent(UpdateStudentRequest request)
         {
-            var result = await _service.UpdateStudentAsync(studentId, request);
+            var result = await _service.UpdateStudentAsync(request);
 
             if (!result.IsSuccess)
                 return BadRequest(result.Message);

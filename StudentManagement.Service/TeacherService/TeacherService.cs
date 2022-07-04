@@ -125,13 +125,13 @@ namespace StudentManagement.Service.TeacherService
             }
         }
 
-        public async Task<UpdateTeacherResponse> UpdateTeacherAsync(int teacherId, UpdateTeacherRequest request)
+        public async Task<UpdateTeacherResponse> UpdateTeacherAsync(UpdateTeacherRequest request)
         {
             try
             {
-                var teacher = await _dbContext.Teachers.SingleOrDefaultAsync(t => t.Id == teacherId);
+                var teacher = await _dbContext.Teachers.SingleOrDefaultAsync(t => t.Id == request.TeacherId);
                 if (teacher == null)
-                    return new UpdateTeacherResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'teacherId' bilgisi girdiniz." };
+                    return new UpdateTeacherResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'TeacherId' bilgisi girdiniz." };
 
                 teacher.PhoneNumber = request.PhoneNumber != teacher.PhoneNumber ? request.PhoneNumber : teacher.PhoneNumber;
                 teacher.Address = request.Address != teacher.Address ? request.Address : teacher.Address;

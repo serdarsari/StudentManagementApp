@@ -17,7 +17,7 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTeachers([FromQuery] GetTeachersRequest request)
+        public async Task<IActionResult> GetTeachers(GetTeachersRequest request)
         {
             var result = await _service.GetTeachersAsync(request);
             return Ok(result);
@@ -34,7 +34,7 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTeacher([FromBody] CreateTeacherRequest request)
+        public async Task<IActionResult> CreateTeacher(CreateTeacherRequest request)
         {
             var result = await _service.CreateTeacherAsync(request);
 
@@ -56,9 +56,9 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPut("{teacherId}")]
-        public async Task<IActionResult> UpdateTeacher(int teacherId, UpdateTeacherRequest request)
+        public async Task<IActionResult> UpdateTeacher(UpdateTeacherRequest request)
         {
-            var result = await _service.UpdateTeacherAsync(teacherId, request);
+            var result = await _service.UpdateTeacherAsync(request);
 
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
@@ -68,7 +68,7 @@ namespace StudentManagementApp.API.Controllers
 
         [HttpPost]
         [Route("AssignMultipleStudentToTeacher")]
-        public async Task<IActionResult> AssignMultipleStudentToTeacher([FromBody] AssignMultipleStudentToTeacherRequest request)
+        public async Task<IActionResult> AssignMultipleStudentToTeacher(AssignMultipleStudentToTeacherRequest request)
         {
             var result = await _service.AssignMultipleStudentToTeacherAsync(request);
             if (!result.IsSuccess)
