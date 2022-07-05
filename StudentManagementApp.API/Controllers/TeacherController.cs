@@ -21,7 +21,7 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTeachers(GetTeachersQuery query)
+        public async Task<IActionResult> GetTeachers([FromQuery] GetTeachersQuery query)
         {
             var result = await _mediator.Send(query);
 
@@ -47,7 +47,7 @@ namespace StudentManagementApp.API.Controllers
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
 
-            return Ok(result);
+            return Ok(result.Message);
         }
 
         [HttpDelete("{teacherId}")]
@@ -83,73 +83,5 @@ namespace StudentManagementApp.API.Controllers
 
             return Ok(result.Message);
         }
-
-        //private readonly ITeacherService _service;
-
-        //public TeacherController(ITeacherService service)
-        //{
-        //    _service = service;
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> GetTeachers(GetTeachersRequest request)
-        //{
-        //    var result = await _service.GetTeachersAsync(request);
-        //    return Ok(result);
-        //}
-
-        //[HttpGet("{teacherId}")]
-        //public async Task<IActionResult> GetTeacherDetail(int teacherId)
-        //{
-        //    var result = await _service.GetTeacherDetailAsync(teacherId);
-        //    if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
-        //        return BadRequest(result.ErrorMessage);
-
-        //    return Ok(result);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateTeacher(CreateTeacherRequest request)
-        //{
-        //    var result = await _service.CreateTeacherAsync(request);
-
-        //    if (!result.IsSuccess)
-        //        return BadRequest(result.Message);
-
-        //    return Ok(result.Message);
-        //}
-
-        //[HttpDelete("{teacherId}")]
-        //public async Task<IActionResult> DeleteTeacher(int teacherId)
-        //{
-        //    var result = await _service.DeleteTeacherAsync(teacherId);
-
-        //    if (!result.IsSuccess)
-        //        return BadRequest(result.Message);
-
-        //    return Ok(result.Message);
-        //}
-
-        //[HttpPut("{teacherId}")]
-        //public async Task<IActionResult> UpdateTeacher(UpdateTeacherRequest request)
-        //{
-        //    var result = await _service.UpdateTeacherAsync(request);
-
-        //    if (!result.IsSuccess)
-        //        return BadRequest(result.Message);
-
-        //    return Ok(result.Message);
-        //}
-
-        //[HttpPost]
-        //[Route("AssignMultipleStudentToTeacher")]
-        //public async Task<IActionResult> AssignMultipleStudentToTeacher(AssignMultipleStudentToTeacherRequest request)
-        //{
-        //    var result = await _service.AssignMultipleStudentToTeacherAsync(request);
-        //    if (!result.IsSuccess)
-        //        return BadRequest(result.Message);
-
-        //    return Ok(result.Message);
-        //}
     }
 }

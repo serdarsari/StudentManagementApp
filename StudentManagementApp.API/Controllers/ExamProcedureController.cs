@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StudentManagement.DTO.ExamProcedureDTO;
-using StudentManagement.Service.ExamProcedureService;
+using StudentManagement.Service.Core.Features.Commands.EnterStudentExamScore;
 
 namespace StudentManagementApp.API.Controllers
 {
@@ -9,18 +8,17 @@ namespace StudentManagementApp.API.Controllers
     [ApiController]
     public class ExamProcedureController : ControllerBase
     {
-        private readonly IExamProcedureService _service;
+        private readonly IMediator _mediator;
 
-        public ExamProcedureController(IExamProcedureService service)
+        public ExamProcedureController(IMediator mediator)
         {
-            _service = service;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<IActionResult> EnterStudentExamScore(EnterStudentExamScoreRequest request)
+        public async Task<IActionResult> EnterStudentExamScore(EnterStudentExamScoreCommand command)
         {
-            var result = await _service.EnterStudentExamScoreAsync(request);
-
+            var result = await _mediator.Send(command);
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
 

@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using StudentManagement.DTO.ExamProcedureDTO;
-using StudentManagement.DTO.LessonDTO;
-using StudentManagement.DTO.ManagerDTO;
-using StudentManagement.DTO.ParentDTO;
 using StudentManagement.DTO.StudentDTO;
 using StudentManagement.DTO.TeacherDTO;
 using StudentManagement.Entity;
+using StudentManagement.Service.Core.Features.Commands.CreateLesson;
+using StudentManagement.Service.Core.Features.Commands.CreateManager;
+using StudentManagement.Service.Core.Features.Commands.CreateParent;
+using StudentManagement.Service.Core.Features.Commands.CreateStudent;
 using StudentManagement.Service.Core.Features.Commands.CreateTeacher;
+using StudentManagement.Service.Core.Features.Commands.EnterStudentExamScore;
 
 namespace StudentManagementApp.API.Common
 {
@@ -16,24 +18,23 @@ namespace StudentManagementApp.API.Common
         {
             //Teacher
             CreateMap<Teacher, GetTeacherDetailResponse>();
-            //CreateMap<CreateTeacherRequest, Teacher>().ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.Now.Year - src.Birthday.Year));
             CreateMap<CreateTeacherCommand, Teacher>().ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.Now.Year - src.Birthday.Year));
 
             //Student
             CreateMap<Student, GetStudentDetailResponse>();
-            CreateMap<CreateStudentRequest, Student>().ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.Now.Year - src.Birthday.Year));
+            CreateMap<CreateStudentCommand, Student>().ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.Now.Year - src.Birthday.Year));
 
             //Manager
-            CreateMap<CreateManagerRequest, Manager>();
+            CreateMap<CreateManagerCommand, Manager>();
 
             //Lesson
-            CreateMap<CreateLessonRequest, Lesson>();
+            CreateMap<CreateLessonCommand, Lesson>();
 
             //ExamProcedure
-            CreateMap<EnterStudentExamScoreRequest, ExamResult>();
+            CreateMap<EnterStudentExamScoreCommand, ExamResult>();
 
             //Parent
-            CreateMap<CreateParentRequest, Parent>();
+            CreateMap<CreateParentCommand, Parent>();
         }
     }
 }

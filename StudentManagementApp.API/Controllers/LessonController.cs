@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StudentManagement.DTO.LessonDTO;
-using StudentManagement.Service.LessonService;
+using StudentManagement.Service.Core.Features.Commands.CreateLesson;
 
 namespace StudentManagementApp.API.Controllers
 {
@@ -9,18 +8,17 @@ namespace StudentManagementApp.API.Controllers
     [ApiController]
     public class LessonController : ControllerBase
     {
-        private readonly ILessonService _service;
+        private readonly IMediator _mediator;
 
-        public LessonController(ILessonService service)
+        public LessonController(IMediator mediator)
         {
-            _service = service;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateLesson(CreateLessonRequest request)
+        public async Task<IActionResult> CreateLesson(CreateLessonCommand command)
         {
-            var result = await _service.CreateLessonAsync(request);
-
+            var result = await _mediator.Send(command);
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
 

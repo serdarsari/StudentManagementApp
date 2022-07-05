@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using StudentManagement.DTO.TeacherDTO;
 using StudentManagement.Service.Core.IConfiguration;
-using StudentManagement.Service.LoggerService;
 
 namespace StudentManagement.Service.Core.Features.Queries.GetTeachers
 {
@@ -11,14 +9,9 @@ namespace StudentManagement.Service.Core.Features.Queries.GetTeachers
         public class GetTeachersQueryHandler : IRequestHandler<GetTeachersQuery, GetTeachersResponse>
         {
             private readonly IUnitOfWork _unitOfWork;
-            private readonly IMapper _mapper;
-            private readonly ILoggerService _loggerService;
-
-            public GetTeachersQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ILoggerService loggerService)
+            public GetTeachersQueryHandler(IUnitOfWork unitOfWork)
             {
                 _unitOfWork = unitOfWork;
-                _mapper = mapper;
-                _loggerService = loggerService;
             }
             public async Task<GetTeachersResponse> Handle(GetTeachersQuery request, CancellationToken cancellationToken)
             {

@@ -1,22 +1,12 @@
 using StudentManagement.Entity;
-using StudentManagement.Service.ExamProcedureService;
-using StudentManagement.Service.StudentService;
-using StudentManagement.Service.LessonService;
-using StudentManagement.Service.ManagerService;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using StudentManagementApp.API.Validations.TeacherValidations;
-using StudentManagement.DTO.StudentDTO;
 using StudentManagementApp.API.Validations.StudentValidations;
-using StudentManagement.DTO.ManagerDTO;
 using StudentManagementApp.API.Validations.ManagerValidations;
-using StudentManagement.DTO.LessonDTO;
 using StudentManagementApp.API.Validations.LessonValidations;
-using StudentManagement.DTO.ExamProcedureDTO;
 using StudentManagementApp.API.Validations.ExamProcedureValidations;
-using StudentManagement.Service.ParentService;
-using StudentManagement.DTO.ParentDTO;
 using StudentManagementApp.API.Validations.ParentValidations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -31,6 +21,14 @@ using StudentManagement.Service.Core.Features.Commands.AssignMultipleStudentToTe
 using StudentManagement.Service.Core.Features.Commands.CreateTeacher;
 using StudentManagement.Service.Core.Features.Queries.GetTeachers;
 using StudentManagement.Service.Core.Features.Commands.UpdateTeacher;
+using StudentManagement.Service.Core.Features.Commands.CreateStudent;
+using StudentManagement.Service.Core.Features.Commands.UpdateStudent;
+using StudentManagement.Service.Core.Features.Queries.GetStudents;
+using StudentManagement.Service.Core.Features.Commands.CreateParent;
+using StudentManagement.Service.Core.Features.Commands.AssignSingleStudentToParent;
+using StudentManagement.Service.Core.Features.Commands.CreateManager;
+using StudentManagement.Service.Core.Features.Commands.CreateLesson;
+using StudentManagement.Service.Core.Features.Commands.EnterStudentExamScore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,32 +61,27 @@ builder.Services.AddDbContext<StudentManagementAppDbContext>(options =>
 
 //Dependency Injection
 builder.Services.AddSingleton<ILoggerService, FileLoggerService>();
-builder.Services.AddTransient<IExamProcedureService, ExamProcedureService>();
-builder.Services.AddTransient<IStudentService, StudentService>();
-builder.Services.AddTransient<ILessonService, LessonService>();
-builder.Services.AddTransient<IManagerService, ManagerService>();
-builder.Services.AddTransient<IParentService, ParentService>();
 builder.Services.AddTransient<IUserService, UserService>();
 
 //Fluent Validation
 //Teacher
-builder.Services.AddTransient<IValidator<CreateTeacherCommand>, CreateTeacherRequestValidator>();
-builder.Services.AddTransient<IValidator<UpdateTeacherCommand>, UpdateTeacherRequestValidator>();
-builder.Services.AddTransient<IValidator<GetTeachersQuery>, GetTeachersRequestValidator>();
-builder.Services.AddTransient<IValidator<AssignMultipleStudentToTeacherCommand>, AssignMultipleStudentToTeacherRequestValidator>();
+builder.Services.AddTransient<IValidator<CreateTeacherCommand>, CreateTeacherQueryValidator>();
+builder.Services.AddTransient<IValidator<UpdateTeacherCommand>, UpdateTeacherQueryValidator>();
+builder.Services.AddTransient<IValidator<GetTeachersQuery>, GetTeachersQueryValidator>();
+builder.Services.AddTransient<IValidator<AssignMultipleStudentToTeacherCommand>, AssignMultipleStudentToTeacherQueryValidator>();
 //Student
-builder.Services.AddTransient<IValidator<CreateStudentRequest>, CreateStudentRequestValidator>();
-builder.Services.AddTransient<IValidator<UpdateStudentRequest>, UpdateStudentRequestValidator>();
-builder.Services.AddTransient<IValidator<GetStudentsRequest>, GetStudentsRequestValidator>();
+builder.Services.AddTransient<IValidator<CreateStudentCommand>, CreateStudentQueryValidator>();
+builder.Services.AddTransient<IValidator<UpdateStudentCommand>, UpdateStudentQueryValidator>();
+builder.Services.AddTransient<IValidator<GetStudentsQuery>, GetStudentsQueryValidator>();
 //Manager
-builder.Services.AddTransient<IValidator<CreateManagerRequest>, CreateManagerRequestValidator>();
+builder.Services.AddTransient<IValidator<CreateManagerCommand>, CreateManagerCommandValidator>();
 //Lesson
-builder.Services.AddTransient<IValidator<CreateLessonRequest>, CreateLessonRequestValidator>();
+builder.Services.AddTransient<IValidator<CreateLessonCommand>, CreateLessonCommandValidator>();
 //ExamProcedure
-builder.Services.AddTransient<IValidator<EnterStudentExamScoreRequest>, EnterStudentExamScoreRequestValidator>();
+builder.Services.AddTransient<IValidator<EnterStudentExamScoreCommand>, EnterStudentExamScoreCommandValidator>();
 //Parent
-builder.Services.AddTransient<IValidator<CreateParentRequest>, CreateParentRequestValidator>();
-builder.Services.AddTransient<IValidator<AssignSingleStudentToParentRequest>, AssignSingleStudentToParentRequestValidator>();
+builder.Services.AddTransient<IValidator<CreateParentCommand>, CreateParentCommandValidator>();
+builder.Services.AddTransient<IValidator<AssignSingleStudentToParentCommand>, AssignSingleStudentToParentCommandValidator>();
 
 
 

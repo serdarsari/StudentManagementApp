@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StudentManagement.DTO.StudentDTO;
-using StudentManagement.Service.StudentService;
+using StudentManagement.Service.Core.Features.Commands.CreateStudent;
+using StudentManagement.Service.Core.Features.Commands.DeleteStudent;
+using StudentManagement.Service.Core.Features.Commands.UpdateStudent;
+using StudentManagement.Service.Core.Features.Queries.GetStudentDetail;
+using StudentManagement.Service.Core.Features.Queries.GetStudents;
 
 namespace StudentManagementApp.API.Controllers
 {
@@ -9,24 +12,27 @@ namespace StudentManagementApp.API.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly IStudentService _service;
+        private readonly IMediator _mediator;
 
-        public StudentController(IStudentService service)
+        public StudentController(IMediator mediator)
         {
-            _service = service;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetStudents(GetStudentsRequest request)
+        public async Task<IActionResult> GetStudents([FromQuery] GetStudentsQuery query)
         {
-            var result = await _service.GetStudentsAsync(request);
+            var result = await _mediator.Send(query);
+
             return Ok(result);
         }
 
         [HttpGet("{studentId}")]
         public async Task<IActionResult> GetStudentDetail(int studentId)
         {
-            var result = await _service.GetStudentDetailAsync(studentId);
+            var query = new GetStudentDetailQuery { StudentId = studentId };
+            var result = await _mediator.Send(query);
+
             if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
                 return BadRequest(result.ErrorMessage);
 
@@ -34,10 +40,9 @@ namespace StudentManagementApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateStudent(CreateStudentRequest request)
+        public async Task<IActionResult> CreateStudent(CreateStudentCommand command)
         {
-            var result = await _service.CreateStudentAsync(request);
-
+            var result = await _mediator.Send(command);
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
 
@@ -47,7 +52,8 @@ namespace StudentManagementApp.API.Controllers
         [HttpDelete("{studentId}")]
         public async Task<IActionResult> DeleteStudent(int studentId)
         {
-            var result = await _service.DeleteStudentAsync(studentId);
+            var query = new DeleteStudentCommand { StudentId = studentId };
+            var result = await _mediator.Send(query);
 
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
@@ -55,10 +61,10 @@ namespace StudentManagementApp.API.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPut("{studentId}")]
-        public async Task<IActionResult> UpdateStudent(UpdateStudentRequest request)
+        [HttpPut]
+        public async Task<IActionResult> UpdateStudent(UpdateStudentCommand command)
         {
-            var result = await _service.UpdateStudentAsync(request);
+            var result = await _mediator.Send(command);
 
             if (!result.IsSuccess)
                 return BadRequest(result.Message);

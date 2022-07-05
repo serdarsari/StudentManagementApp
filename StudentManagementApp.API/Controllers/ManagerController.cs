@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StudentManagement.DTO.ManagerDTO;
-using StudentManagement.Service.ManagerService;
+using StudentManagement.Service.Core.Features.Commands.CreateManager;
 
 namespace StudentManagementApp.API.Controllers
 {
@@ -9,18 +8,17 @@ namespace StudentManagementApp.API.Controllers
     [ApiController]
     public class ManagerController : ControllerBase
     {
-        private readonly IManagerService _service;
+        private readonly IMediator _mediator;
 
-        public ManagerController(IManagerService service)
+        public ManagerController(IMediator mediator)
         {
-            _service = service;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateManager(CreateManagerRequest request)
+        public async Task<IActionResult> CreateManager(CreateManagerCommand command)
         {
-            var result = await _service.CreateManagerAsync(request);
-
+            var result = await _mediator.Send(command);
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
 

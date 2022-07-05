@@ -1,5 +1,4 @@
-﻿
-using StudentManagement.DTO.BaseClasses;
+﻿using StudentManagement.DTO.BaseClasses;
 
 namespace StudentManagement.DTO.ExamProcedureDTO
 {

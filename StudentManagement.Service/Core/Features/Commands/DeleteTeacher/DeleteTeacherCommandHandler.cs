@@ -13,13 +13,11 @@ namespace StudentManagement.Service.Core.Features.Commands.DeleteTeacher
         public class DeleteTeacherCommandHandler : IRequestHandler<DeleteTeacherCommand, DeleteTeacherResponse>
         {
             private readonly IUnitOfWork _unitOfWork;
-            private readonly IMapper _mapper;
             private readonly ILoggerService _loggerService;
 
-            public DeleteTeacherCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILoggerService loggerService)
+            public DeleteTeacherCommandHandler(IUnitOfWork unitOfWork, ILoggerService loggerService)
             {
                 _unitOfWork = unitOfWork;
-                _mapper = mapper;
                 _loggerService = loggerService;
             }
             public async Task<DeleteTeacherResponse> Handle(DeleteTeacherCommand request, CancellationToken cancellationToken)

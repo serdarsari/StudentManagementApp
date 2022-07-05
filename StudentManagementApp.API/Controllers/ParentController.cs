@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StudentManagement.DTO.ParentDTO;
-using StudentManagement.Service.ParentService;
+using StudentManagement.Service.Core.Features.Commands.AssignSingleStudentToParent;
+using StudentManagement.Service.Core.Features.Commands.CreateParent;
 
 namespace StudentManagementApp.API.Controllers
 {
@@ -9,18 +9,18 @@ namespace StudentManagementApp.API.Controllers
     [ApiController]
     public class ParentController : ControllerBase
     {
-        private readonly IParentService _service;
+        private readonly IMediator _mediator;
 
-        public ParentController(IParentService service)
+        public ParentController(IMediator mediator)
         {
-            _service = service;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateParent(CreateParentRequest request)
+        public async Task<IActionResult> CreateParent(CreateParentCommand command)
         {
-            var result = await _service.CreateParentAsync(request);
-            if(!result.IsSuccess)
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
                 return BadRequest(result.Message);
 
             return Ok(result.Message);
@@ -28,9 +28,9 @@ namespace StudentManagementApp.API.Controllers
 
         [HttpPost]
         [Route("AssignSingleStudentToParent")]
-        public async Task<IActionResult> AssignSingleStudentToParentAsync(AssignSingleStudentToParentRequest request)
+        public async Task<IActionResult> AssignSingleStudentToParentAsync(AssignSingleStudentToParentCommand command)
         {
-            var result = await _service.AssignSingleStudentToParentAsync(request);
+            var result = await _mediator.Send(command);
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
 
