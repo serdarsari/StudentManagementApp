@@ -59,5 +59,15 @@ namespace StudentManagement.Service.Core.Repositories
         {
             return await dbSet.CountAsync();
         }
+
+        public virtual async Task<T> SingleOfDefaultAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await dbSet.SingleOrDefaultAsync(predicate);
+        }
+
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await dbSet.FirstOrDefaultAsync(predicate);
+        }
     }
 }

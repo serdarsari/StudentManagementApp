@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using StudentManagement.Entity;
-using StudentManagement.Service.Core.IConfiguration;
+using StudentManagement.Service.Core.IConfigurationRepository;
 using StudentManagement.Service.Core.IRepositories;
 using StudentManagement.Service.Core.Repositories;
 using StudentManagement.Service.LoggerService;
@@ -25,6 +25,8 @@ namespace StudentManagement.Service.Core
 
         public IExamProcedureRepository ExamProcedures { get; private set; }
 
+        public IUserRepository Users { get; private set; }
+
         public UnitOfWork(StudentManagementAppDbContext dbContext, ILoggerService loggerService, IMapper mapper)
         {
             _dbContext = dbContext;
@@ -37,6 +39,7 @@ namespace StudentManagement.Service.Core
             Managers = new ManagerRepository(_dbContext, _loggerService);
             Lessons = new LessonRepository(_dbContext, _loggerService);
             ExamProcedures = new ExamProcedureRepository(_dbContext, _loggerService, _mapper);
+            Users = new UserRepository(_dbContext, _loggerService);
         }
 
         public async Task CompleteAsync()

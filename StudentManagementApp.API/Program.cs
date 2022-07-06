@@ -14,7 +14,6 @@ using System.Text;
 using StudentManagement.Service.UserService;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Service.LoggerService;
-using StudentManagement.Service.Core.IConfiguration;
 using StudentManagement.Service.Core;
 using MediatR;
 using StudentManagement.Service.Core.Features.Commands.AssignMultipleStudentToTeacher;
@@ -30,6 +29,7 @@ using StudentManagement.Service.Core.Features.Commands.CreateManager;
 using StudentManagement.Service.Core.Features.Commands.CreateLesson;
 using StudentManagement.Service.Core.Features.Commands.EnterStudentExamScore;
 using StudentManagement.Service.Core.Features.Queries.GetParents;
+using StudentManagement.Service.Core.IConfigurationRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,7 +58,7 @@ builder.Services.AddDbContext<StudentManagementAppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StudentManagementAppDbConnStr"), b => b.MigrationsAssembly("StudentManagementApp.API"));
 });
 
-
+builder.Services.AddCors();
 
 //Dependency Injection
 builder.Services.AddSingleton<ILoggerService, FileLoggerService>();
@@ -106,6 +106,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(
+        options =>
+        {
+            options.AllowAnyOrigin();
+            options.AllowAnyMethod();
+            options.AllowAnyHeader();
+        }
+    );
 
 app.UseAuthentication();
 

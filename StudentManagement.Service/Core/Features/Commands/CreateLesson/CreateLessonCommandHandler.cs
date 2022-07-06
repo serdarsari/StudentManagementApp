@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.LessonDTO;
 using StudentManagement.Entity;
-using StudentManagement.Service.Core.IConfiguration;
+using StudentManagement.Service.Core.IConfigurationRepository;
 using StudentManagement.Service.Enums;
 using StudentManagement.Service.LoggerService;
 

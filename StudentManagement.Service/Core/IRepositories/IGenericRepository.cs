@@ -10,7 +10,10 @@ namespace StudentManagement.Service.Core.IRepositories
         bool Update(T entity);
         bool Delete(T entity);
         Task<T> FirstOrDefaultAsync();
+        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
         Task<int> MaxAsync(Expression<Func<T, int>> selector);
         Task<int> CountAsync();
+
+        Task<T> SingleOfDefaultAsync(Expression<Func<T, bool>> predicate);
     }
 }

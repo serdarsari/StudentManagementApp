@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using StudentManagement.DTO.TeacherDTO;
-using StudentManagement.Service.Core.IConfiguration;
+using StudentManagement.Service.Core.IConfigurationRepository;
 
 namespace StudentManagement.Service.Core.Features.Commands.AssignMultipleStudentToTeacher
 {

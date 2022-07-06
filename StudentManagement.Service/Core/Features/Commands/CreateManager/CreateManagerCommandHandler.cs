@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using StudentManagement.DTO.ManagerDTO;
 using StudentManagement.Entity;
 using StudentManagement.Service.Common;
-using StudentManagement.Service.Core.IConfiguration;
+using StudentManagement.Service.Core.IConfigurationRepository;
 using StudentManagement.Service.Enums;
 using StudentManagement.Service.LoggerService;
 

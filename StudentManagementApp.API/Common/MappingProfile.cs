@@ -9,6 +9,7 @@ using StudentManagement.Service.Core.Features.Commands.CreateManager;
 using StudentManagement.Service.Core.Features.Commands.CreateParent;
 using StudentManagement.Service.Core.Features.Commands.CreateStudent;
 using StudentManagement.Service.Core.Features.Commands.CreateTeacher;
+using StudentManagement.Service.Core.Features.Commands.CreateUser;
 using StudentManagement.Service.Core.Features.Commands.EnterStudentExamScore;
 
 namespace StudentManagementApp.API.Common
@@ -37,6 +38,9 @@ namespace StudentManagementApp.API.Common
             //Parent
             CreateMap<Parent, GetParentDetailResponse>();
             CreateMap<CreateParentCommand, Parent>();
+
+            //User
+            CreateMap<CreateUserCommand, User>();
         }
     }
 }

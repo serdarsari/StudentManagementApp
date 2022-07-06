@@ -1,6 +1,6 @@
 ﻿using StudentManagement.Service.Core.IRepositories;
 
-namespace StudentManagement.Service.Core.IConfiguration
+namespace StudentManagement.Service.Core.IConfigurationRepository
 {
     public interface IUnitOfWork
     {
@@ -10,6 +10,7 @@ namespace StudentManagement.Service.Core.IConfiguration
         IManagerRepository Managers { get; }
         ILessonRepository Lessons { get; }
         IExamProcedureRepository ExamProcedures { get; }
+        IUserRepository Users { get; }
 
         Task CompleteAsync();
     }

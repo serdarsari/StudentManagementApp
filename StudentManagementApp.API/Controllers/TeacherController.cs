@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Service.Core.Features.Commands.AssignMultipleStudentToTeacher;
 using StudentManagement.Service.Core.Features.Commands.CreateTeacher;
@@ -9,6 +10,7 @@ using StudentManagement.Service.Core.Features.Queries.GetTeachers;
 
 namespace StudentManagementApp.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]s")]
     [ApiController]
     public class TeacherController : ControllerBase
