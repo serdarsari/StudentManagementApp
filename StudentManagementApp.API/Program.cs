@@ -29,6 +29,7 @@ using StudentManagement.Service.Core.Features.Commands.AssignSingleStudentToPare
 using StudentManagement.Service.Core.Features.Commands.CreateManager;
 using StudentManagement.Service.Core.Features.Commands.CreateLesson;
 using StudentManagement.Service.Core.Features.Commands.EnterStudentExamScore;
+using StudentManagement.Service.Core.Features.Queries.GetParents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,6 +81,7 @@ builder.Services.AddTransient<IValidator<CreateLessonCommand>, CreateLessonComma
 //ExamProcedure
 builder.Services.AddTransient<IValidator<EnterStudentExamScoreCommand>, EnterStudentExamScoreCommandValidator>();
 //Parent
+builder.Services.AddTransient<IValidator<GetParentsQuery>, GetParentsQueryValidator>();
 builder.Services.AddTransient<IValidator<CreateParentCommand>, CreateParentCommandValidator>();
 builder.Services.AddTransient<IValidator<AssignSingleStudentToParentCommand>, AssignSingleStudentToParentCommandValidator>();
 

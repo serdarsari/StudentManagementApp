@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using StudentManagement.DTO.ExamProcedureDTO;
+using StudentManagement.DTO.ParentDTO;
 using StudentManagement.DTO.StudentDTO;
 using StudentManagement.DTO.TeacherDTO;
 using StudentManagement.Entity;
@@ -34,6 +35,7 @@ namespace StudentManagementApp.API.Common
             CreateMap<EnterStudentExamScoreCommand, ExamResult>();
 
             //Parent
+            CreateMap<Parent, GetParentDetailResponse>();
             CreateMap<CreateParentCommand, Parent>();
         }
     }
