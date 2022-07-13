@@ -27,7 +27,7 @@ Role Based Authorization
 JWT Authentication
 
 ----- Geliştirmeye devam ediyorum her gün eklemeler oldukça bu alan güncellenecek.
-Henüz bütün CRUD işlemlerini yazmadım. Uygulamayı daha hızlı kullanılabilir hale getirmek için bazı sınıfların sadece Create veya Get işlemleri yazdım. Update, Delete gibi işlemlerini henüz yazmadığım sınıflar mevcut.
+Henüz bütün CRUD işlemlerini yazmadım. Uygulamayı daha hızlı kullanılabilir hale getirmek için bazı sınıfların sadece Create veya Get işlemlerini yazdım. Update ve Delete gibi işlemlerini henüz yazmadığım sınıflar mevcut.
 
 ### Veritabanı kurulumu (Sql Server)
 
