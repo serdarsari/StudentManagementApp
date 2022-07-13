@@ -12,14 +12,14 @@ using StudentManagement.Entity;
 namespace StudentManagementApp.API.Migrations
 {
     [DbContext(typeof(StudentManagementAppDbContext))]
-    [Migration("20220707140630_lastMigration")]
-    partial class lastMigration
+    [Migration("20220713133526_current_migrate")]
+    partial class current_migrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -81,6 +81,29 @@ namespace StudentManagementApp.API.Migrations
                     b.ToTable("Lessons");
                 });
 
+            modelBuilder.Entity("StudentManagement.Entity.LessonStudent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("LessonStudent");
+                });
+
             modelBuilder.Entity("StudentManagement.Entity.Log", b =>
                 {
                     b.Property<int>("Id")
@@ -113,6 +136,10 @@ namespace StudentManagementApp.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -211,6 +238,10 @@ namespace StudentManagementApp.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EmergencyCall")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -286,6 +317,10 @@ namespace StudentManagementApp.API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -351,12 +386,34 @@ namespace StudentManagementApp.API.Migrations
                     b.Property<DateTime?>("RefreshTokenExpireDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("StudentManagement.Entity.ExamResult", b =>
+                {
+                    b.HasOne("StudentManagement.Entity.Lesson", "Lesson")
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentManagement.Entity.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("StudentManagement.Entity.LessonStudent", b =>
                 {
                     b.HasOne("StudentManagement.Entity.Lesson", "Lesson")
                         .WithMany()
