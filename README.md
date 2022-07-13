@@ -39,3 +39,13 @@ alanını açıp, **Default Project** kısmını, **StudentManagement.Entity** o
 update-database
 ```
 yazmanız yeterlidir. Veritabanınızda **StudentManagementApp** adında bir veritabanı oluşacaktır.
+
+### Uygulama Hakkında
+* Öğrenci, Öğretmen ve Yönetici içeren 3 kullanıcının kullanabileceği bir **bilgilendirme ve yönetim** uygulamasıdır.
+* 3 farklı rol bulunmaktadır. (Student, Teacher, Admin)
+* Kullanıcı yetkisi olmayan işlemleri yapamamaktadır. Sadece rolünün izin verdiği işlemleri yapabilmektedir.
+* Öğrenci giriş yaptığında sadece kendi notlarını ve kendine kayıtlı dersleri görebilmektedir.
+* Öğretmen giriş yaptığında sadece kendi verdiği dersi ve öğrencilerini görebilmekte ve not verebilmektedir. Ayrıca kendi öğrencilerinin velilerini de görebilmektedir.
+* Yönetici giriş yaptığında tüm öğretmenleri, öğrencileri ve velilerini görebilmektedir. Tüm işlemleri yapabilmektedir.
+
+NOT : API için ajax ile basit bir UI hazırladım, onu da yakın zamanda yükleyeceğim. API'yi ve UI'ı çalıştırıp uygulamayı kendi bilgisayarınızda canlı test edebilirsiniz.
