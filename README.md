@@ -27,6 +27,7 @@ Role Based Authorization
 JWT Authentication
 
 ----- Geliştirmeye devam ediyorum her gün eklemeler oldukça bu alan güncellenecek.
+Henüz bütün CRUD işlemlerini yazmadım. Uygulamayı daha hızlı kullanılabilir hale getirmek için bazı sınıfların sadece Create veya Get işlemleri yazdım. Update, Delete gibi işlemlerini henüz yazmadığım sınıflar mevcut.
 
 ### Veritabanı kurulumu (Sql Server)
 
@@ -40,7 +41,7 @@ update-database
 ```
 yazmanız yeterlidir. Veritabanınızda **StudentManagementApp** adında bir veritabanı oluşacaktır.
 
-### Uygulama Hakkında
+## Uygulama Hakkında
 * Öğrenci, Öğretmen ve Yönetici içeren 3 kullanıcının kullanabileceği bir **bilgilendirme ve yönetim** uygulamasıdır.
 * 3 farklı rol bulunmaktadır. (Student, Teacher, Admin)
 * Kullanıcı yetkisi olmayan işlemleri yapamamaktadır. Sadece rolünün izin verdiği işlemleri yapabilmektedir.
