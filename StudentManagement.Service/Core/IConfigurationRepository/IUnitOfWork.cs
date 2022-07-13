@@ -11,6 +11,7 @@ namespace StudentManagement.Service.Core.IConfigurationRepository
         ILessonRepository Lessons { get; }
         IExamProcedureRepository ExamProcedures { get; }
         IUserRepository Users { get; }
+        ILessonStudentRepository LessonStudent { get; }
 
         Task CompleteAsync();
     }

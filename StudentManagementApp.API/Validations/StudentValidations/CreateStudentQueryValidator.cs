@@ -13,6 +13,7 @@ namespace StudentManagementApp.API.Validations.StudentValidations
             RuleFor(x => x.Address).NotEmpty();
             RuleFor(x => x.ClassBranch).NotEmpty();
             RuleFor(x => x.Grade).GreaterThanOrEqualTo(1);
+            RuleFor(x => x.Email).NotEmpty();
         }
     }
 }

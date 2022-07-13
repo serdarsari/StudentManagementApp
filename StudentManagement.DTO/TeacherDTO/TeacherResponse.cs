@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace StudentManagement.DTO.TeacherDTO
 {
     public class TeacherResponse
@@ -12,5 +7,7 @@ namespace StudentManagement.DTO.TeacherDTO
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Profession { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Gender { get; set; }
     }
 }

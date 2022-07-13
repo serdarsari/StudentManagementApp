@@ -18,5 +18,6 @@ namespace StudentManagement.Entity
         public int Grade { get; set; }
         public string ClassBranch { get; set; }
         public double GPA { get; set; }
-    }
+		public string Email { get; set; }
+	}
 }

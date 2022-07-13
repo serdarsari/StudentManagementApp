@@ -1,4 +1,6 @@
 ﻿
+using StudentManagement.Entity.Enums;
+
 namespace StudentManagement.Entity
 {
     public class User
@@ -10,5 +12,6 @@ namespace StudentManagement.Entity
         public string Password { get; set; }
         public string RefreshToken { get; set; }
         public DateTime? RefreshTokenExpireDate { get; set; }
+        public Role Role { get; set; }
     }
 }

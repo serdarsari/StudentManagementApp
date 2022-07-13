@@ -11,7 +11,6 @@ using StudentManagementApp.API.Validations.ParentValidations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using StudentManagement.Service.UserService;
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Service.LoggerService;
 using StudentManagement.Service.Core;
@@ -30,6 +29,24 @@ using StudentManagement.Service.Core.Features.Commands.CreateLesson;
 using StudentManagement.Service.Core.Features.Commands.EnterStudentExamScore;
 using StudentManagement.Service.Core.Features.Queries.GetParents;
 using StudentManagement.Service.Core.IConfigurationRepository;
+using StudentManagement.Service.TokenService;
+using TokenHandler = StudentManagement.Service.TokenService.TokenHandler;
+using StudentManagementApp.API.Authorization;
+using StudentManagementApp.API.Validations.UserValidations;
+using StudentManagement.Service.Core.Features.Commands.CreateToken;
+using StudentManagement.Service.Core.Features.Commands.CreateUser;
+using StudentManagement.Service.Core.Features.Commands.DeleteStudent;
+using StudentManagement.Service.Core.Features.Commands.DeleteTeacher;
+using StudentManagement.Service.Core.Features.Commands.RefreshToken;
+using StudentManagement.Service.Core.Features.Queries.GetExamResultsByStudent;
+using StudentManagement.Service.Core.Features.Queries.GetLessonsByTeacher;
+using StudentManagement.Service.Core.Features.Queries.GetParentDetail;
+using StudentManagement.Service.Core.Features.Queries.GetLessons;
+using StudentManagement.Service.Core.Features.Queries.GetParentsByTeacher;
+using StudentManagement.Service.Core.Features.Queries.GetStudentDetail;
+using StudentManagement.Service.Core.Features.Queries.GetStudentsByLesson;
+using StudentManagement.Service.Core.Features.Queries.GetstudentsByTeacher;
+using StudentManagement.Service.Core.Features.Queries.GetTeacherDetail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,28 +79,44 @@ builder.Services.AddCors();
 
 //Dependency Injection
 builder.Services.AddSingleton<ILoggerService, FileLoggerService>();
-builder.Services.AddTransient<IUserService, UserService>();
 
 //Fluent Validation
 //Teacher
 builder.Services.AddTransient<IValidator<CreateTeacherCommand>, CreateTeacherQueryValidator>();
-builder.Services.AddTransient<IValidator<UpdateTeacherCommand>, UpdateTeacherQueryValidator>();
+builder.Services.AddTransient<IValidator<UpdateTeacherCommand>, UpdateTeacherCommandValidator>();
 builder.Services.AddTransient<IValidator<GetTeachersQuery>, GetTeachersQueryValidator>();
-builder.Services.AddTransient<IValidator<AssignMultipleStudentToTeacherCommand>, AssignMultipleStudentToTeacherQueryValidator>();
+builder.Services.AddTransient<IValidator<AssignMultipleStudentToTeacherCommand>, AssignMultipleStudentToTeacherCommandValidator>();
+builder.Services.AddTransient<IValidator<DeleteTeacherCommand>, DeleteTeacherCommandValidator>();
+builder.Services.AddTransient<IValidator<GetTeacherDetailQuery>, GetTeacherDetailQueryValidator>();
 //Student
+builder.Services.AddTransient<IValidator<GetStudentDetailQuery>, GetStudentDetailQueryValidator>();
 builder.Services.AddTransient<IValidator<CreateStudentCommand>, CreateStudentQueryValidator>();
-builder.Services.AddTransient<IValidator<UpdateStudentCommand>, UpdateStudentQueryValidator>();
+builder.Services.AddTransient<IValidator<UpdateStudentCommand>, UpdateStudentCommandValidator>();
 builder.Services.AddTransient<IValidator<GetStudentsQuery>, GetStudentsQueryValidator>();
+builder.Services.AddTransient<IValidator<DeleteStudentCommand>, DeleteStudentCommandValidator>();
+builder.Services.AddTransient<IValidator<GetStudentsByLessonQuery>, GetStudentsByLessonQueryValidator>();
+builder.Services.AddTransient<IValidator<GetStudentsByTeacherQuery>, GetStudentsByTeacherQueryValidator>();
 //Manager
 builder.Services.AddTransient<IValidator<CreateManagerCommand>, CreateManagerCommandValidator>();
 //Lesson
 builder.Services.AddTransient<IValidator<CreateLessonCommand>, CreateLessonCommandValidator>();
+builder.Services.AddTransient<IValidator<GetLessonsByTeacherQuery>, GetLessonsByTeacherQueryValidator>();
+builder.Services.AddTransient<IValidator<GetLessonsQuery>, GetLessonsQueryValidator>();
 //ExamProcedure
 builder.Services.AddTransient<IValidator<EnterStudentExamScoreCommand>, EnterStudentExamScoreCommandValidator>();
+builder.Services.AddTransient<IValidator<GetExamResultsByStudentQuery>, GetExamResultsByStudentQueryValidator>();
 //Parent
 builder.Services.AddTransient<IValidator<GetParentsQuery>, GetParentsQueryValidator>();
 builder.Services.AddTransient<IValidator<CreateParentCommand>, CreateParentCommandValidator>();
 builder.Services.AddTransient<IValidator<AssignSingleStudentToParentCommand>, AssignSingleStudentToParentCommandValidator>();
+builder.Services.AddTransient<IValidator<GetParentDetailQuery>, GetParentDetailQueryValidator>();
+builder.Services.AddTransient<IValidator<GetParentsByTeacherQuery>, GetParentsByTeacherQueryValidator>();
+//User
+builder.Services.AddTransient<IValidator<CreateTokenCommand>, CreateTokenCommandValidator>();
+builder.Services.AddTransient<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
+builder.Services.AddTransient<IValidator<RefreshTokenCommand>, RefreshTokenCommandValidator>();
+
+builder.Services.AddScoped<IJwtUtils, TokenHandler>();
 
 
 
@@ -121,6 +154,8 @@ app.UseAuthentication();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
 

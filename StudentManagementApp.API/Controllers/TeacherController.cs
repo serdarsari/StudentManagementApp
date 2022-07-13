@@ -1,12 +1,13 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StudentManagement.Entity.Enums;
 using StudentManagement.Service.Core.Features.Commands.AssignMultipleStudentToTeacher;
 using StudentManagement.Service.Core.Features.Commands.CreateTeacher;
 using StudentManagement.Service.Core.Features.Commands.DeleteTeacher;
 using StudentManagement.Service.Core.Features.Commands.UpdateTeacher;
 using StudentManagement.Service.Core.Features.Queries.GetTeacherDetail;
 using StudentManagement.Service.Core.Features.Queries.GetTeachers;
+using StudentManagementApp.API.Authorization;
 
 namespace StudentManagementApp.API.Controllers
 {
@@ -22,6 +23,7 @@ namespace StudentManagementApp.API.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Role.Admin)]
         [HttpGet]
         public async Task<IActionResult> GetTeachers([FromQuery] GetTeachersQuery query)
         {
@@ -30,6 +32,7 @@ namespace StudentManagementApp.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Role.Admin)]
         [HttpGet("{teacherId}")]
         public async Task<IActionResult> GetTeacherDetail(int teacherId)
         {
@@ -42,6 +45,7 @@ namespace StudentManagementApp.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Role.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateTeacher(CreateTeacherCommand command)
         {
@@ -52,6 +56,7 @@ namespace StudentManagementApp.API.Controllers
             return Ok(result.Message);
         }
 
+        [Authorize(Role.Admin)]
         [HttpDelete("{teacherId}")]
         public async Task<IActionResult> DeleteTeacher(int teacherId)
         {
@@ -64,6 +69,7 @@ namespace StudentManagementApp.API.Controllers
             return Ok(result.Message);
         }
 
+        [Authorize(Role.Admin)]
         [HttpPut]
         public async Task<IActionResult> UpdateTeacher(UpdateTeacherCommand command)
         {
@@ -75,6 +81,7 @@ namespace StudentManagementApp.API.Controllers
             return Ok(result.Message);
         }
 
+        [Authorize(Role.Admin)]
         [HttpPost]
         [Route("AssignMultipleStudentToTeacher")]
         public async Task<IActionResult> AssignMultipleStudentToTeacher(AssignMultipleStudentToTeacherCommand command)

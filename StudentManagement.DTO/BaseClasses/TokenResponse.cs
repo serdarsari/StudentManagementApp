@@ -1,4 +1,6 @@
 ﻿
+using StudentManagement.Entity.Enums;
+
 namespace StudentManagement.DTO.BaseClasses
 {
     public class TokenResponse
@@ -8,5 +10,6 @@ namespace StudentManagement.DTO.BaseClasses
         public string AccessToken { get; set; }
         public DateTime Expiration { get; set; }
         public string RefreshToken { get; set; }
+        public Role Role { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace StudentManagement.Entity
         public DbSet<ExamResult> ExamResults { get; set; }
         public DbSet<ParentStudent> ParentStudent { get; set; }
         public DbSet<StudentTeacher> StudentTeacher { get; set; }
+        public DbSet<LessonStudent> LessonStudent { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Log> Logs { get; set; }
     }

@@ -13,7 +13,7 @@ namespace StudentManagement.Service.Core.IRepositories
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
         Task<int> MaxAsync(Expression<Func<T, int>> selector);
         Task<int> CountAsync();
-
         Task<T> SingleOfDefaultAsync(Expression<Func<T, bool>> predicate);
+        IQueryable<T> Where(Expression<Func<T, bool>> predicate);
     }
 }

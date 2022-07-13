@@ -69,5 +69,10 @@ namespace StudentManagement.Service.Core.Repositories
         {
             return await dbSet.FirstOrDefaultAsync(predicate);
         }
+
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
+        {
+            return dbSet.Where(predicate);
+        }
     }
 }

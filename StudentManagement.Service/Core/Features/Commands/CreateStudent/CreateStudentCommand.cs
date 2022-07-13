@@ -13,5 +13,6 @@ namespace StudentManagement.Service.Core.Features.Commands.CreateStudent
         public string Address { get; set; }
         public int Grade { get; set; }
         public string ClassBranch { get; set; }
-    }
+		public string Email { get; set; }
+	}
 }

@@ -7,6 +7,6 @@ namespace StudentManagement.Service.Core.Features.Commands.EnterStudentExamScore
     {
         public int LessonId { get; set; }
         public int StudentId { get; set; }
-        public int ExamScore { get; set; }
+        public int Score { get; set; }
     }
 }

@@ -8,6 +8,8 @@ namespace StudentManagement.DTO.StudentDTO
         public string LastName { get; set; }
         public int Grade { get; set; }
         public string ClassBranch { get; set; }
-        
+        public double GPA { get; set; }
+        public string Gender { get; set; }
+
     }
 }

@@ -9,7 +9,7 @@ namespace StudentManagementApp.API.Validations.ExamProcedureValidations
         {
             RuleFor(x => x.StudentId).GreaterThanOrEqualTo(1);
             RuleFor(x => x.LessonId).GreaterThanOrEqualTo(1);
-            RuleFor(x=> x.ExamScore).GreaterThanOrEqualTo(1).LessThanOrEqualTo(100);
+            RuleFor(x=> x.Score).GreaterThanOrEqualTo(1).LessThanOrEqualTo(100);
         }
     }
 }

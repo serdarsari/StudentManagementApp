@@ -27,6 +27,8 @@ namespace StudentManagement.Service.Core
 
         public IUserRepository Users { get; private set; }
 
+        public ILessonStudentRepository LessonStudent { get; private set; }
+
         public UnitOfWork(StudentManagementAppDbContext dbContext, ILoggerService loggerService, IMapper mapper)
         {
             _dbContext = dbContext;
@@ -40,6 +42,7 @@ namespace StudentManagement.Service.Core
             Lessons = new LessonRepository(_dbContext, _loggerService);
             ExamProcedures = new ExamProcedureRepository(_dbContext, _loggerService, _mapper);
             Users = new UserRepository(_dbContext, _loggerService);
+            LessonStudent = new LessonStudentRepository(_dbContext, _loggerService);
         }
 
         public async Task CompleteAsync()
