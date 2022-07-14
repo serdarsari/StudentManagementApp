@@ -71,6 +71,8 @@ namespace StudentManagement.Service.Core.Repositories
                         LastName = s.A.Parent.LastName,
                         PhoneNumber = s.A.Parent.PhoneNumber,
                         ChildFullName = s.Student.FirstName + " " + s.Student.LastName,
+                        Gender = s.A.Parent.Gender
+                        
                     }).ToList();
 
                 response.Parents = parents;
@@ -104,7 +106,8 @@ namespace StudentManagement.Service.Core.Repositories
                         FirstName = x.soc3.FirstName,
                         LastName = x.soc3.LastName,
                         PhoneNumber = x.soc3.PhoneNumber,
-                        ChildFullName = x.sc3.sc2.soc.FirstName + " " + x.sc3.sc2.soc.LastName
+                        ChildFullName = x.sc3.sc2.soc.FirstName + " " + x.sc3.sc2.soc.LastName,
+                        Gender = x.soc3.Gender
                     }).ToListAsync();
 
                 response.Parents = parents;
