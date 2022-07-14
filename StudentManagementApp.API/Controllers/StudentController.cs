@@ -8,6 +8,7 @@ using StudentManagement.Service.Core.Features.Queries.GetStudentDetail;
 using StudentManagement.Service.Core.Features.Queries.GetStudents;
 using StudentManagement.Service.Core.Features.Queries.GetStudentsByLesson;
 using StudentManagement.Service.Core.Features.Queries.GetstudentsByTeacher;
+using StudentManagement.Service.Core.Features.Queries.GetStudentsForrAssignmentToTeacher;
 using StudentManagementApp.API.Authorization;
 
 namespace StudentManagementApp.API.Controllers
@@ -46,6 +47,16 @@ namespace StudentManagementApp.API.Controllers
         [HttpGet]
         [Route("GetStudentsByLesson")]
         public async Task<IActionResult> GetStudentsByLesson([FromQuery] GetStudentsByLessonQuery query)
+        {
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [Authorize(Role.Admin)]
+        [HttpGet]
+        [Route("GetStudentsForAssignmentToTeacher")]
+        public async Task<IActionResult> GetStudentsForAssignmentToTeacher([FromQuery] GetStudentsForAssignmentToTeacherQuery query)
         {
             var result = await _mediator.Send(query);
 

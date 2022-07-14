@@ -10,5 +10,6 @@ namespace StudentManagement.Service.Core.Features.Commands.UpdateTeacher
         public string Address { get; set; }
         public string Profession { get; set; }
         public string Description { get; set; }
+        public string Email { get; set; }
     }
 }

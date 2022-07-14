@@ -27,6 +27,12 @@ namespace StudentManagement.Service.Core.Features.Commands.CreateLesson
             {
                 try
                 {
+                    var isExist = await _unitOfWork.Lessons.FirstOrDefaultAsync(x => x.LessonCode == request.LessonCode);
+                    if (isExist != null)
+                    {
+                        return new CreateLessonResponse { IsSuccess = false, Message = "Aynı ders koduna sahip ders zaten mevcut!" };
+                    }
+
                     var lesson = _mapper.Map<Lesson>(request);
 
                     await _unitOfWork.Lessons.AddAsync(lesson);

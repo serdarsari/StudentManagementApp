@@ -19,6 +19,7 @@ namespace StudentManagement.DTO.TeacherDTO
         }
         public string Profession { get; set; }
         public string? Description { get; set; }
+        public string Email { get; set; }
         public string? ErrorMessage { get; set; }
     }
 }

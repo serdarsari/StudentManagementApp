@@ -28,6 +28,12 @@ namespace StudentManagement.Service.Core.Features.Commands.CreateStudent
             {
                 try
                 {
+                    var isExist = await _unitOfWork.Students.FirstOrDefaultAsync(x => x.Email == request.Email);
+                    if (isExist != null)
+                    {
+                        return new CreateStudentResponse { IsSuccess = false, Message = "Aynı email bilgisine sahip öğrenci zaten mevcut!" };
+                    }
+
                     var lastId = 0;
                     var checkIfDatabaseIsEmpty = await _unitOfWork.Students.FirstOrDefaultAsync();
                     if (checkIfDatabaseIsEmpty != null)

@@ -31,12 +31,18 @@ namespace StudentManagement.Service.Core.Features.Commands.UpdateTeacher
                     if (teacher == null)
                         return new UpdateTeacherResponse { IsSuccess = false, Message = "ERROR: Geçersiz 'TeacherId' bilgisi girdiniz." };
 
+                    var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.Email == teacher.Email);
+
                     teacher.PhoneNumber = request.PhoneNumber != teacher.PhoneNumber ? request.PhoneNumber : teacher.PhoneNumber;
                     teacher.Address = request.Address != teacher.Address ? request.Address : teacher.Address;
                     teacher.Profession = request.Profession != teacher.Profession ? request.Profession : teacher.Profession;
                     teacher.Description = request.Description != teacher.Description ? request.Description : teacher.Description;
+                    teacher.Email = request.Email != teacher.Email ? request.Email : teacher.Email;
+
+                    user.Email = teacher.Email;
 
                     _unitOfWork.Teachers.Update(teacher);
+                    _unitOfWork.Users.Update(user);
                     await _unitOfWork.CompleteAsync();
 
                     return new UpdateTeacherResponse { IsSuccess = true, Message = "Güncelleme işlemi başarılı!" };

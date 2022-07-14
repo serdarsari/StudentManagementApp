@@ -63,7 +63,7 @@ namespace StudentManagement.Service.Core.Features.Commands.CreateToken
 					var token = handler.CreateAccessToken(user);
 
 					user.RefreshToken = token.RefreshToken;
-					user.RefreshTokenExpireDate = token.Expiration.AddMinutes(5);
+					user.RefreshTokenExpireDate = token.Expiration.AddDays(1);
 					_unitOfWork.Users.Update(user);
 					await _unitOfWork.CompleteAsync();
 

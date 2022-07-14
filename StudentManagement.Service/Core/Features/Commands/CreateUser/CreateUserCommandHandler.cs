@@ -33,9 +33,6 @@ namespace StudentManagement.Service.Core.Features.Commands.CreateUser
 
                     user = _mapper.Map<User>(request);
 
-                    //BUNU KALDIR TESTTEN SONRA
-                    user.RefreshToken = "aaa";
-
                     await _unitOfWork.Users.AddAsync(user);
                     await _unitOfWork.CompleteAsync();
 

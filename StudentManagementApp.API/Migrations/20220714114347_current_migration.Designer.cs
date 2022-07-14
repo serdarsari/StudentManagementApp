@@ -12,8 +12,8 @@ using StudentManagement.Entity;
 namespace StudentManagementApp.API.Migrations
 {
     [DbContext(typeof(StudentManagementAppDbContext))]
-    [Migration("20220713133526_current_migrate")]
-    partial class current_migrate
+    [Migration("20220714114347_current_migration")]
+    partial class current_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -380,7 +380,6 @@ namespace StudentManagementApp.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("RefreshTokenExpireDate")

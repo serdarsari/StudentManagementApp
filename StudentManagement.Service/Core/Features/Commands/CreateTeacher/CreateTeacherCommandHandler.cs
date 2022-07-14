@@ -28,6 +28,12 @@ namespace StudentManagement.Service.Core.Features.Commands.CreateTeacher
             {
                 try
                 {
+                    var isExist = await _unitOfWork.Teachers.FirstOrDefaultAsync(x => x.Email == request.Email);
+                    if (isExist != null)
+                    {
+                        return new CreateTeacherResponse { IsSuccess = false, Message = "Aynı email bilgisine sahip öğretmen zaten mevcut!" };
+                    }
+
                     var lastId = 0;
                     var checkIfDatabaseIsEmpty = await _unitOfWork.Teachers.FirstOrDefaultAsync();
                     
